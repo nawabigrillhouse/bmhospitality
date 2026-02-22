@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
-import { Clock, MapPin, Check } from 'lucide-react';
-import { travelPackages } from '../mock';
+import { Clock, MapPin, Check, Calendar, Users, IndianRupee } from 'lucide-react';
+import { domesticPackages, internationalPackages, goaPackages, sendWhatsAppMessage } from '../mock';
 import { toast } from 'sonner';
 
 const Packages = () => {
   const [selectedPackage, setSelectedPackage] = useState(null);
+  const [packageType, setPackageType] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     travelDate: '',
-    numberOfPeople: '2',
+    numberOfAdults: '2',
+    numberOfChildren: '0',
+    duration: '',
+    destination: '',
     message: ''
   });
 
@@ -27,191 +32,310 @@ const Packages = () => {
     });
   };
 
-  const handleBooking = (e) => {
+  const handleQuoteRequest = (pkg, type) => {
+    setSelectedPackage(pkg);
+    setPackageType(type);
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // Mock booking - will be replaced with backend API call
-    console.log('Booking submitted:', { ...formData, package: selectedPackage });
-    toast.success('Booking request submitted! We will contact you shortly.');
+    
+    // Prepare WhatsApp message
+    let message = `*New ${packageType} Package Inquiry - BM Hospitality*\n\n`;
+    message += `📦 *Package:* ${selectedPackage?.name || selectedPackage?.location}\n`;
+    message += `📍 *Destination:* ${selectedPackage?.destination || selectedPackage?.location}\n\n`;
+    message += `*Guest Details:*\n`;
+    message += `👤 Name: ${formData.name}\n`;
+    message += `📧 Email: ${formData.email}\n`;
+    message += `📱 Phone: ${formData.phone}\n\n`;
+    message += `*Travel Information:*\n`;
+    message += `📅 Travel Date: ${formData.travelDate}\n`;
+    message += `👥 Adults: ${formData.numberOfAdults}\n`;
+    message += `👶 Children: ${formData.numberOfChildren}\n`;
+    
+    if (formData.duration) {
+      message += `⏱️ Duration: ${formData.duration}\n`;
+    }
+    if (formData.destination) {
+      message += `🎯 Preferred Destination: ${formData.destination}\n`;
+    }
+    if (formData.message) {
+      message += `\n💬 *Special Requirements:*\n${formData.message}\n`;
+    }
+    
+    message += `\n_Sent via BM Hospitality Website_`;
+    
+    // Send to WhatsApp
+    sendWhatsAppMessage(message);
+    
+    // Show success toast
+    toast.success('Request sent to WhatsApp! We will send you a quotation shortly.');
+    
+    // Reset form
     setFormData({
       name: '',
       email: '',
       phone: '',
       travelDate: '',
-      numberOfPeople: '2',
+      numberOfAdults: '2',
+      numberOfChildren: '0',
+      duration: '',
+      destination: '',
       message: ''
     });
   };
+
+  const PackageCard = ({ pkg, type }) => (
+    <Card className="package-card group">
+      <div className="relative overflow-hidden rounded-t-lg h-64">
+        <img 
+          src={pkg.image} 
+          alt={pkg.name}
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+        />
+      </div>
+      
+      <CardHeader>
+        <CardTitle className="text-xl text-gray-800 group-hover:text-teal-700 transition-colors">
+          {pkg.name}
+        </CardTitle>
+        <CardDescription className="flex items-center space-x-4 text-base mt-2">
+          <span className="flex items-center">
+            <MapPin className="w-4 h-4 mr-1" />
+            {pkg.destination || pkg.location}
+          </span>
+          {pkg.duration && (
+            <span className="flex items-center">
+              <Clock className="w-4 h-4 mr-1" />
+              {pkg.duration}
+            </span>
+          )}
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent>
+        <p className="text-gray-600 mb-4 line-clamp-2">{pkg.description}</p>
+        
+        <div className="space-y-2">
+          <p className="text-sm font-semibold text-gray-700">
+            {pkg.highlights ? 'Package Highlights:' : 'Amenities:'}
+          </p>
+          <ul className="space-y-1">
+            {(pkg.highlights || pkg.amenities).slice(0, 3).map((item, index) => (
+              <li key={index} className="flex items-start text-sm text-gray-600">
+                <Check className="w-4 h-4 mr-2 text-teal-600 flex-shrink-0 mt-0.5" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </CardContent>
+
+      <CardFooter className="flex items-center justify-between pt-4 border-t">
+        {pkg.priceStart ? (
+          <div>
+            <p className="text-sm text-gray-500">Starting from</p>
+            <p className="text-2xl font-bold text-teal-700 flex items-center">
+              <IndianRupee className="w-5 h-5" />{pkg.priceStart}
+            </p>
+            <p className="text-xs text-gray-500">per night onwards</p>
+          </div>
+        ) : (
+          <div>
+            <p className="text-lg font-bold text-teal-700">Request Quote</p>
+            <p className="text-xs text-gray-500">Get personalized pricing</p>
+          </div>
+        )}
+        
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button 
+              className="bg-teal-600 hover:bg-teal-700 text-white"
+              onClick={() => handleQuoteRequest(pkg, type)}
+            >
+              Get Quote
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Request Quotation - {selectedPackage?.name || selectedPackage?.location}</DialogTitle>
+              <DialogDescription>
+                Fill in your complete travel details and we'll send you a customized quotation on WhatsApp
+              </DialogDescription>
+            </DialogHeader>
+            
+            <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+              <div className="grid grid-cols-1 gap-4">
+                <div>
+                  <Label htmlFor="name">Full Name *</Label>
+                  <Input 
+                    id="name" 
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="Enter your full name"
+                    required
+                  />
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="email">Email *</Label>
+                    <Input 
+                      id="email" 
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="your@email.com"
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="phone">Phone Number *</Label>
+                    <Input 
+                      id="phone" 
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="+91 98765 43210"
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <Label htmlFor="travelDate">Travel Date *</Label>
+                    <Input 
+                      id="travelDate" 
+                      name="travelDate"
+                      type="date"
+                      value={formData.travelDate}
+                      onChange={handleInputChange}
+                      min={new Date().toISOString().split('T')[0]}
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="numberOfAdults">Adults *</Label>
+                    <Input 
+                      id="numberOfAdults" 
+                      name="numberOfAdults"
+                      type="number"
+                      min="1"
+                      value={formData.numberOfAdults}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="numberOfChildren">Children</Label>
+                    <Input 
+                      id="numberOfChildren" 
+                      name="numberOfChildren"
+                      type="number"
+                      min="0"
+                      value={formData.numberOfChildren}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+                
+                {(type === 'Domestic' || type === 'International') && (
+                  <>
+                    <div>
+                      <Label htmlFor="duration">Preferred Duration</Label>
+                      <Input 
+                        id="duration" 
+                        name="duration"
+                        value={formData.duration}
+                        onChange={handleInputChange}
+                        placeholder="e.g., 5 Days / 4 Nights"
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="destination">Preferred Destinations</Label>
+                      <Input 
+                        id="destination" 
+                        name="destination"
+                        value={formData.destination}
+                        onChange={handleInputChange}
+                        placeholder="Any specific cities or places you want to visit?"
+                      />
+                    </div>
+                  </>
+                )}
+                
+                <div>
+                  <Label htmlFor="message">Special Requirements / Questions</Label>
+                  <Textarea 
+                    id="message" 
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    placeholder="Any specific preferences, dietary requirements, or questions?"
+                    rows={3}
+                  />
+                </div>
+              </div>
+              
+              <Button type="submit" className="w-full bg-teal-600 hover:bg-teal-700 text-white">
+                Send Request via WhatsApp
+              </Button>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </CardFooter>
+    </Card>
+  );
 
   return (
     <section id="packages" className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="section-title">Popular Travel Packages</h2>
+          <h2 className="section-title">Our Travel Packages</h2>
           <p className="section-subtitle">
-            Handpicked destinations and carefully crafted experiences for your perfect getaway
+            Explore our handpicked destinations and get personalized quotations via WhatsApp
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {travelPackages.map((pkg) => (
-            <Card key={pkg.id} className="package-card group">
-              <div className="relative overflow-hidden rounded-t-lg h-64">
-                <img 
-                  src={pkg.image} 
-                  alt={pkg.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute top-4 right-4 bg-teal-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                  {pkg.category}
-                </div>
-              </div>
-              
-              <CardHeader>
-                <CardTitle className="text-2xl text-gray-800 group-hover:text-teal-700 transition-colors">
-                  {pkg.name}
-                </CardTitle>
-                <CardDescription className="flex items-center space-x-4 text-base mt-2">
-                  <span className="flex items-center">
-                    <MapPin className="w-4 h-4 mr-1" />
-                    {pkg.destination}
-                  </span>
-                  <span className="flex items-center">
-                    <Clock className="w-4 h-4 mr-1" />
-                    {pkg.duration}
-                  </span>
-                </CardDescription>
-              </CardHeader>
-
-              <CardContent>
-                <p className="text-gray-600 mb-4 line-clamp-2">{pkg.description}</p>
-                
-                <div className="space-y-2">
-                  <p className="text-sm font-semibold text-gray-700">Package Highlights:</p>
-                  <ul className="space-y-1">
-                    {pkg.highlights.slice(0, 3).map((highlight, index) => (
-                      <li key={index} className="flex items-start text-sm text-gray-600">
-                        <Check className="w-4 h-4 mr-2 text-teal-600 flex-shrink-0 mt-0.5" />
-                        <span>{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </CardContent>
-
-              <CardFooter className="flex items-center justify-between pt-4 border-t">
-                <div>
-                  <p className="text-sm text-gray-500">Starting from</p>
-                  <p className="text-3xl font-bold text-teal-700">${pkg.price}</p>
-                  <p className="text-xs text-gray-500">per person</p>
-                </div>
-                
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button 
-                      className="bg-teal-600 hover:bg-teal-700 text-white"
-                      onClick={() => setSelectedPackage(pkg)}
-                    >
-                      Book Now
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[500px]">
-                    <DialogHeader>
-                      <DialogTitle>Book {selectedPackage?.name}</DialogTitle>
-                      <DialogDescription>
-                        Fill in your details and we'll get back to you with the best deals.
-                      </DialogDescription>
-                    </DialogHeader>
-                    
-                    <form onSubmit={handleBooking} className="space-y-4 mt-4">
-                      <div className="grid grid-cols-1 gap-4">
-                        <div>
-                          <Label htmlFor="name">Full Name *</Label>
-                          <Input 
-                            id="name" 
-                            name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            placeholder="John Doe"
-                            required
-                          />
-                        </div>
-                        
-                        <div>
-                          <Label htmlFor="email">Email *</Label>
-                          <Input 
-                            id="email" 
-                            name="email"
-                            type="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            placeholder="john@example.com"
-                            required
-                          />
-                        </div>
-                        
-                        <div>
-                          <Label htmlFor="phone">Phone Number *</Label>
-                          <Input 
-                            id="phone" 
-                            name="phone"
-                            type="tel"
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                            placeholder="+1 234 567 8900"
-                            required
-                          />
-                        </div>
-                        
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <Label htmlFor="travelDate">Travel Date *</Label>
-                            <Input 
-                              id="travelDate" 
-                              name="travelDate"
-                              type="date"
-                              value={formData.travelDate}
-                              onChange={handleInputChange}
-                              required
-                            />
-                          </div>
-                          
-                          <div>
-                            <Label htmlFor="numberOfPeople">No. of People *</Label>
-                            <Input 
-                              id="numberOfPeople" 
-                              name="numberOfPeople"
-                              type="number"
-                              min="1"
-                              value={formData.numberOfPeople}
-                              onChange={handleInputChange}
-                              required
-                            />
-                          </div>
-                        </div>
-                        
-                        <div>
-                          <Label htmlFor="message">Special Requests</Label>
-                          <Textarea 
-                            id="message" 
-                            name="message"
-                            value={formData.message}
-                            onChange={handleInputChange}
-                            placeholder="Any special requirements or questions?"
-                            rows={3}
-                          />
-                        </div>
-                      </div>
-                      
-                      <Button type="submit" className="w-full bg-teal-600 hover:bg-teal-700">
-                        Submit Booking Request
-                      </Button>
-                    </form>
-                  </DialogContent>
-                </Dialog>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+        <Tabs defaultValue="domestic" className="w-full">
+          <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3 mb-12">
+            <TabsTrigger value="domestic" className="text-base">Domestic Packages</TabsTrigger>
+            <TabsTrigger value="international" className="text-base">International Packages</TabsTrigger>
+            <TabsTrigger value="goa" className="text-base">Goa Hotels & Resorts</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="domestic">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {domesticPackages.map((pkg) => (
+                <PackageCard key={pkg.id} pkg={pkg} type="Domestic" />
+              ))}
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="international">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {internationalPackages.map((pkg) => (
+                <PackageCard key={pkg.id} pkg={pkg} type="International" />
+              ))}
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="goa">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {goaPackages.map((pkg) => (
+                <PackageCard key={pkg.id} pkg={pkg} type="Goa Hotel/Resort" />
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </section>
   );
