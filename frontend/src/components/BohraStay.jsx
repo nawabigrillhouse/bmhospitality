@@ -5,8 +5,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
-import { Home, Users, Waves, IndianRupee, Check } from 'lucide-react';
-import { bohraStayOptions, bohraAmenities, sendWhatsAppMessage } from '../mock';
+import { Home, Users, Waves, IndianRupee, Check, Sparkles } from 'lucide-react';
+import { bohraStayOptions, bohraAmenities, bohraSpecialFeatures, bohraPackageIncludes, sendWhatsAppMessage } from '../mock';
 import { toast } from 'sonner';
 
 const BohraStay = () => {
@@ -93,7 +93,14 @@ const BohraStay = () => {
       <div className="text-center mb-8">
         <h3 className="text-3xl font-bold text-gray-800 mb-2">{stayData.name}</h3>
         <p className="text-lg text-gray-600 mb-4">{stayData.subtitle}</p>
-        <div className="inline-block bg-teal-50 px-6 py-2 rounded-full">
+        
+        {/* Tag Badge */}
+        <div className="inline-flex items-center bg-gradient-to-r from-teal-600 to-teal-500 px-8 py-3 rounded-full shadow-lg mb-4">
+          <Sparkles className="w-5 h-5 text-white mr-2" />
+          <span className="text-white font-bold text-base">{stayData.tag}</span>
+        </div>
+        
+        <div className="inline-block bg-teal-50 px-6 py-2 rounded-full ml-3">
           <p className="text-sm font-semibold text-teal-800">
             ⏱️ Rate valid for minimum 3 night stay
           </p>
