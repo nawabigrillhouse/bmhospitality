@@ -328,75 +328,85 @@ export const galleryImages = [
     id: 1,
     url: "https://images.unsplash.com/photo-1603477849227-705c424d1d80",
     title: "Tropical Paradise",
-    location: "Maldives"
+    location: "Andaman Islands"
   },
   {
     id: 2,
     url: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4",
     title: "Luxury Pool Resort",
-    location: "Bali"
+    location: "Goa"
   },
   {
     id: 3,
     url: "https://images.unsplash.com/photo-1586500036065-bdaeac7a4feb",
-    title: "Palm Beach Serenity",
-    location: "Thailand"
+    title: "Beach Serenity",
+    location: "Kerala"
   },
   {
     id: 4,
-    url: "https://images.unsplash.com/photo-1535262412227-85541e910204",
-    title: "Island View",
-    location: "Caribbean"
+    url: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800",
+    title: "Historic Monument",
+    location: "Taj Mahal, Agra"
   },
   {
     id: 5,
-    url: "https://images.pexels.com/photos/32932742/pexels-photo-32932742.jpeg",
-    title: "Beach Relaxation",
-    location: "Maldives"
+    url: "https://images.unsplash.com/photo-1609920658906-8223bd289001?w=800",
+    title: "Kashmir Valley",
+    location: "Srinagar"
   },
   {
     id: 6,
-    url: "https://images.unsplash.com/photo-1551918120-9739cb430c6d",
-    title: "Waterfront Luxury",
-    location: "Greece"
+    url: "https://images.unsplash.com/photo-1545413151-a882b9f67a47?w=800",
+    title: "Rajasthan Heritage",
+    location: "Jaisalmer"
   }
 ];
 
 export const services = [
   {
     id: 1,
-    title: "Holiday Packages",
-    description: "Curated vacation packages to exotic destinations worldwide with all-inclusive amenities.",
-    icon: "Palmtree"
+    title: "Domestic Packages",
+    description: "Explore incredible India with customized tour packages to popular destinations.",
+    icon: "MapPin"
   },
   {
     id: 2,
-    title: "Corporate Travel",
-    description: "Specialized business travel solutions including conferences, team building, and incentive trips.",
-    icon: "Briefcase"
+    title: "International Packages",
+    description: "Discover the world with our carefully curated international travel experiences.",
+    icon: "Globe"
   },
   {
     id: 3,
-    title: "Adventure Tours",
-    description: "Thrilling adventure experiences from mountain trekking to water sports and wildlife safaris.",
-    icon: "Mountain"
+    title: "Goa Holidays",
+    description: "Premium hotels, resorts, and villas in Goa for perfect beach vacations.",
+    icon: "Palmtree"
   },
   {
     id: 4,
-    title: "Luxury Experiences",
-    description: "Premium travel with five-star accommodations, private tours, and exclusive experiences.",
-    icon: "Crown"
+    title: "Dawoodi Bohra Stays",
+    description: "Exclusive accommodations in Goa for the Dawoodi Bohra community.",
+    icon: "Home"
   },
   {
     id: 5,
     title: "Custom Planning",
-    description: "Personalized itineraries tailored to your preferences, interests, and budget.",
+    description: "Personalized itineraries tailored to your preferences and budget.",
     icon: "Map"
   },
   {
     id: 6,
     title: "24/7 Support",
-    description: "Round-the-clock customer support for bookings, changes, and travel assistance.",
+    description: "Round-the-clock assistance via WhatsApp for all your travel needs.",
     icon: "Phone"
   }
 ];
+
+// WhatsApp Configuration
+export const WHATSAPP_NUMBER = "+918329416113";
+
+// Helper function to send WhatsApp message
+export const sendWhatsAppMessage = (message) => {
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER.replace(/[^0-9]/g, '')}?text=${encodedMessage}`;
+  window.open(whatsappURL, '_blank');
+};
