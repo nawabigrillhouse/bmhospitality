@@ -257,6 +257,7 @@ export const bohraStayOptions = {
   privateVillaCommonPool: {
     name: "Private Villa with Common Pool",
     subtitle: "Semi Luxury & Furnished Villa with Full In-house Amenities",
+    tag: "Budget friendly cost for couples & families",
     options: [
       { 
         bhk: "2 BHK", 
@@ -296,6 +297,7 @@ export const bohraStayOptions = {
   privateVillaPrivatePool: {
     name: "Private Villa with Private Pool",
     subtitle: "Premium & Luxury Stay having Fully Furnished Villa with Full In-house Amenities",
+    tag: "Luxurious & Premium Stay for couples & families",
     options: [
       { 
         bhk: "2 BHK", 
@@ -334,6 +336,7 @@ export const bohraStayOptions = {
   apartments: {
     name: "2BHK & 3BHK Apartments with Common Pool",
     subtitle: "Semi Furnished and Fully Furnished Apartment with Common Pool",
+    tag: "Best for couples and families",
     options: [
       { 
         bhk: "2 BHK", 
@@ -369,6 +372,36 @@ export const bohraAmenities = [
   "WiFi and Inverter backup",
   "24 x 7 caretaker on call and on site",
   "Security surveillance"
+];
+
+export const bohraSpecialFeatures = [
+  {
+    title: "Dawoodi Bohra Cuisine",
+    description: "Authentic Dawoodi Bohra food available",
+    icon: "🍽️"
+  },
+  {
+    title: "Thaal, Safra & Kunli",
+    description: "Traditional utensils placed in the kitchen",
+    icon: "🥘"
+  },
+  {
+    title: "Food Delivery",
+    description: "Food delivered at your doorstep",
+    icon: "🚪"
+  },
+  {
+    title: "Prayer Facilities",
+    description: "Topi, Chakdi and Masalla provided on request",
+    icon: "🕌"
+  }
+];
+
+export const bohraPackageIncludes = [
+  "Accommodation Stay",
+  "Sightseeing Tours",
+  "All Transfers",
+  "Food Included"
 ];
 
 export const testimonials = [
