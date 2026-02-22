@@ -1,231 +1,233 @@
 # BM Hospitality Travel Website - Product Requirements Document
 
 ## Original Problem Statement
-Create a customized travel services and package website named "BM Hospitality" with all features including travel package listings, booking/inquiry forms, customer testimonials, photo gallery, and contact information with location map.
+Create a simplified, customized travel services website for BM Hospitality with 5 main sections:
+1. Domestic Packages (India tourism)
+2. International Packages (Worldwide destinations)
+3. Goa Packages (Hotels & Resorts)
+4. WhatsApp Integration for quotation requests
+5. Dawoodi Bohra Community Stay section (Exclusive Goa accommodations)
 
-## User Personas
-1. **Leisure Travelers**: Individuals/families looking for vacation packages
-2. **Luxury Seekers**: High-end travelers seeking premium experiences
-3. **Adventure Enthusiasts**: Travelers interested in unique experiences
-4. **Corporate Clients**: Businesses needing travel planning services
+## Business Details
+- **WhatsApp Number:** +918329416113
+- **Target Audience:** Indian travelers, Dawoodi Bohra community, international tourists
+- **Pricing Model:** Request-based quotations via WhatsApp
 
-## Core Requirements
+## Core Features Implemented (December 22, 2025)
 
-### Design & Branding
-- Color Scheme: Teal (#14b8a6, #0d9488), Ocean Blue (#06b6d4), Warm Beige
-- Logo: Tropical theme with palm trees and ocean waves
-- Responsive design with modern UI
-- Smooth animations and transitions
+### 1. Domestic Packages ✅
+- 6 popular Indian destinations:
+  - Golden Triangle (Delhi, Agra, Jaipur)
+  - Kerala Backwaters
+  - Kashmir Paradise
+  - Rajasthan Royal Heritage
+  - Himachal Hill Stations
+  - Andaman Beach Escape
+- Request quote form with complete guest details
+- WhatsApp integration for instant quotations
 
-### Frontend Features (All Implemented ✅)
-1. **Header & Navigation**
-   - Sticky header with logo
-   - Smooth scroll navigation
-   - Mobile-responsive menu
-   - "Book Now" CTA button
+### 2. International Packages ✅
+- 6 popular worldwide destinations:
+  - Maldives Luxury Retreat
+  - Dubai Extravaganza
+  - Thailand Beach Paradise
+  - Bali Cultural Journey
+  - Singapore & Malaysia
+  - Europe Grand Tour
+- Request quote form with travel preferences
+- WhatsApp integration
 
-2. **Hero Section**
-   - Full-screen hero with tropical beach image
-   - Compelling headline and subtitle
-   - Dual CTA buttons (Explore Packages, Plan My Trip)
-   - Trust indicators (50+ Destinations, Custom Itineraries, Award-Winning)
+### 3. Goa Hotels & Resorts ✅
+- 4 premium properties with pricing starting ₹3,500/night onwards:
+  - Luxury Beach Resort (North Goa - Calangute)
+  - Heritage Hotel (South Goa - Benaulim)
+  - Family Resort (North Goa - Baga)
+  - Boutique Beach Villa (South Goa - Palolem)
+- Amenities and facility details
+- WhatsApp inquiry system
 
-3. **Services Section**
-   - 6 service cards with icons (Holiday Packages, Corporate Travel, Adventure Tours, Luxury Experiences, Custom Planning, 24/7 Support)
-   - Hover animations
+### 4. Dawoodi Bohra Stay Types in Goa ✅
+Exclusive section with 3 accommodation categories:
 
-4. **Travel Packages**
-   - 6 package cards with images, pricing, and details
-   - Categories: Beach & Luxury, Cultural & Adventure, Cruise & Luxury, etc.
-   - Package highlights with checkmarks
-   - Booking dialog with form (Name, Email, Phone, Travel Date, Number of People, Special Requests)
+**A. Luxury Private Villa with Private Pool**
+- 2 BHK (4-6 Guests)
+- 3 BHK (6-8 Guests)
+- 4 BHK (8-10 Guests)
+- 5 BHK (10-12 Guests)
+- Amenities: Private pool, fully furnished, modern kitchen, AC, WiFi, parking
 
-5. **Destination Gallery**
-   - 6 tropical destination images in 3x2 grid
-   - Lightbox for full-size viewing
-   - Hover effects with location overlays
+**B. Semi-Luxury Villa with Common Pool**
+- 2 BHK (4-6 Guests)
+- 3 BHK (6-8 Guests)
+- 4 BHK (8-10 Guests)
+- 5 BHK (10-12 Guests)
+- Amenities: Common pool, fully furnished, kitchen, AC, WiFi, parking
 
-6. **Testimonials**
-   - 4 customer testimonials with photos
-   - 5-star ratings
-   - Associated package names
+**C. Apartments with Common Pool**
+- 2 BHK (4-6 Guests)
+- 3 BHK (6-8 Guests)
+- Amenities: Common pool, furnished, kitchen, AC, WiFi, secure parking
 
-7. **Contact Section**
-   - Contact form (Name, Email, Phone, Subject, Message)
-   - Contact information cards (Address, Phone, Email, Business Hours)
-   - Embedded Google Maps
+### 5. WhatsApp Integration ✅
+- Direct WhatsApp messaging with pre-filled inquiry details
+- Structured message format with all guest information
+- Package/property details included in message
+- One-click send to +918329416113
 
-8. **Footer**
-   - Company info with logo
-   - Quick links navigation
-   - Popular destinations list
-   - Contact details
-   - Social media links (Facebook, Instagram, Twitter, LinkedIn)
+### 6. Additional Sections ✅
+- Services overview (6 service cards)
+- Destination gallery (Indian destinations)
+- Customer testimonials (Dawoodi Bohra community focused)
+- Contact form with location map
+- Professional header & footer
 
-## What's Been Implemented (December 22, 2025)
+## WhatsApp Message Format
 
-### Frontend Components
-- `/app/frontend/src/mock.js` - Mock data for packages, testimonials, gallery, services
-- `/app/frontend/src/components/Header.jsx` - Sticky header with navigation
-- `/app/frontend/src/components/Hero.jsx` - Hero section with CTA
-- `/app/frontend/src/components/Services.jsx` - Services grid
-- `/app/frontend/src/components/Packages.jsx` - Package cards with booking dialog
-- `/app/frontend/src/components/Gallery.jsx` - Image gallery with lightbox
-- `/app/frontend/src/components/Testimonials.jsx` - Customer testimonials
-- `/app/frontend/src/components/Contact.jsx` - Contact form and info
-- `/app/frontend/src/components/Footer.jsx` - Footer with links
-- `/app/frontend/src/App.js` - Main app with all sections
-- `/app/frontend/src/App.css` - Custom styles and animations
+### For Travel Packages (Domestic/International):
+```
+*New [Package Type] Package Inquiry - BM Hospitality*
 
-### Current Functionality
-- All frontend interactions work with mock data
-- Booking forms show success toasts (browser-only, no backend)
-- Contact form shows success toasts (browser-only, no backend)
-- Smooth scroll navigation
-- Responsive design
-- Gallery lightbox
-- Mobile menu
+📦 Package: [Package Name]
+📍 Destination: [Destination]
 
-## Prioritized Backlog
+*Guest Details:*
+👤 Name: [Guest Name]
+📧 Email: [Email]
+📱 Phone: [Phone]
 
-### P0 Features (Critical - Backend Development)
+*Travel Information:*
+📅 Travel Date: [Date]
+👥 Adults: [Number]
+👶 Children: [Number]
+⏱️ Duration: [Duration]
+🎯 Preferred Destination: [Destinations]
+
+💬 Special Requirements:
+[Message]
+
+_Sent via BM Hospitality Website_
+```
+
+### For Dawoodi Bohra Stay:
+```
+*Dawoodi Bohra Stay Inquiry - BM Hospitality*
+
+🏠 Stay Type: [Villa/Apartment Type]
+🏘️ Configuration: [BHK]
+👥 Capacity: [Guests]
+
+*Guest Details:*
+👤 Name: [Guest Name]
+📧 Email: [Email]
+📱 Phone: [Phone]
+
+*Booking Information:*
+📅 Check-in: [Date]
+📅 Check-out: [Date]
+👥 Adults: [Number]
+👶 Children: [Number]
+
+💬 Special Requirements:
+[Message]
+
+_Dawoodi Bohra Community - BM Hospitality_
+```
+
+## Frontend Architecture
+
+### Components Structure
+```
+/app/frontend/src/
+├── components/
+│   ├── Header.jsx          # Navigation with Bohra Stay link
+│   ├── Hero.jsx            # Hero section
+│   ├── Services.jsx        # 6 service cards
+│   ├── Packages.jsx        # Tabbed packages (Domestic/International/Goa)
+│   ├── BohraStay.jsx       # Dawoodi Bohra community stays
+│   ├── Gallery.jsx         # Destination gallery
+│   ├── Testimonials.jsx    # Customer reviews
+│   ├── Contact.jsx         # Contact form
+│   └── Footer.jsx          # Footer with links
+├── mock.js                 # Mock data
+└── App.js                  # Main app
+```
+
+### Key Technologies
+- React 19 with Shadcn UI components
+- Tabs component for package categories
+- Dialog for booking/inquiry forms
+- WhatsApp Web API integration (wa.me)
+- Toast notifications (Sonner)
+- Teal color scheme matching logo
+
+## Current Status
+✅ **Frontend Complete** - All 5 sections implemented with WhatsApp integration
+🔄 **Data:** Using mock data (no backend yet)
+📱 **WhatsApp:** Fully integrated, opens WhatsApp with pre-filled messages
+
+## Next Action Items (Backend Development)
+
+### P0 - Critical Features
 1. **Database Models**
-   - Package model (name, destination, duration, price, description, highlights, category, image)
-   - Booking model (customer details, package, travel date, number of people, status)
-   - Contact inquiry model (name, email, phone, subject, message, status)
-   - Testimonial model (name, location, rating, comment, package, image)
+   - Package model (domestic & international)
+   - Goa property model
+   - Bohra stay model
+   - Inquiry/booking model
+   - Contact submission model
 
 2. **API Endpoints**
-   - GET /api/packages - List all packages
-   - GET /api/packages/:id - Get package details
-   - POST /api/bookings - Create booking request
-   - POST /api/contact - Submit contact form
-   - GET /api/testimonials - Get testimonials
-   - GET /api/gallery - Get gallery images
+   - GET /api/packages/domestic
+   - GET /api/packages/international
+   - GET /api/goa-properties
+   - GET /api/bohra-stays
+   - POST /api/inquiries (store inquiries in database)
+   - POST /api/contact
 
 3. **Email Notifications**
-   - Send booking confirmation to customer
-   - Send booking notification to admin
-   - Send contact form notification to admin
+   - Send inquiry copy to admin email
+   - Confirmation email to guest
 
-### P1 Features (High Priority)
+### P1 - High Priority
 1. **Admin Panel**
-   - Manage packages (CRUD operations)
-   - View and manage booking requests
-   - View contact inquiries
-   - Manage testimonials
-   - Upload gallery images
+   - Manage packages (add/edit/delete)
+   - Manage Goa properties
+   - Manage Bohra stay listings
+   - View all inquiries
+   - Mark inquiries as contacted/completed
 
-2. **Enhanced Features**
-   - Package search and filtering
-   - Package availability calendar
+2. **WhatsApp Business API**
+   - Optional: Direct WhatsApp Business API integration
+   - Automated message templates
+   - Inquiry tracking
+
+### P2 - Future Enhancements
+1. **Advanced Features**
    - Payment gateway integration
-   - Booking status tracking
-
-### P2 Features (Nice to Have)
-1. **User Features**
-   - User registration and login
-   - Booking history
-   - Saved packages/wishlist
-   - Newsletter subscription
+   - Booking calendar with availability
+   - Multi-language support (Arabic for Bohra community)
+   - User accounts for repeat customers
+   - Saved inquiries/bookings history
 
 2. **Marketing Features**
-   - Blog section for travel tips
-   - Special offers/promotions banner
-   - Multi-language support
-   - Live chat integration
+   - Special offers section
+   - Seasonal packages
+   - Blog for travel tips
+   - Newsletter subscription
 
-## API Contracts (To Be Implemented)
+## Technical Notes
+- All forms validate required fields
+- Date inputs have minimum date validation (today onwards)
+- Guest count inputs accept only positive numbers
+- WhatsApp opens in new tab with encoded message
+- Responsive design for mobile/tablet/desktop
+- Smooth scroll navigation
+- Accessible UI with proper labels
 
-### GET /api/packages
-**Response:**
-```json
-[
-  {
-    "id": 1,
-    "name": "Maldives Paradise Escape",
-    "destination": "Maldives",
-    "duration": "7 Days / 6 Nights",
-    "price": 2499,
-    "image": "url",
-    "description": "...",
-    "highlights": ["...", "..."],
-    "category": "Beach & Luxury"
-  }
-]
-```
-
-### POST /api/bookings
-**Request:**
-```json
-{
-  "packageId": 1,
-  "name": "John Doe",
-  "email": "john@example.com",
-  "phone": "+1234567890",
-  "travelDate": "2025-06-15",
-  "numberOfPeople": 2,
-  "message": "Optional special requests"
-}
-```
-**Response:**
-```json
-{
-  "success": true,
-  "bookingId": "BK123456",
-  "message": "Booking request received successfully"
-}
-```
-
-### POST /api/contact
-**Request:**
-```json
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "phone": "+1234567890",
-  "subject": "Inquiry about packages",
-  "message": "I would like to know more..."
-}
-```
-**Response:**
-```json
-{
-  "success": true,
-  "message": "Thank you for contacting us. We will respond within 24 hours."
-}
-```
-
-## Frontend-Backend Integration Plan
-
-### Step 1: Create Database Models
-- Define MongoDB schemas for packages, bookings, contacts, testimonials
-
-### Step 2: Implement API Endpoints
-- Create FastAPI routes for all CRUD operations
-- Add validation and error handling
-
-### Step 3: Replace Mock Data
-- Update frontend to fetch packages from API instead of mock.js
-- Update booking form to POST to /api/bookings
-- Update contact form to POST to /api/contact
-- Update testimonials to fetch from API
-
-### Step 4: Add Email Service
-- Integrate email service (SendGrid/SMTP)
-- Send notifications on bookings and contact submissions
-
-## Technical Stack
-- **Frontend:** React 19, Tailwind CSS, Shadcn UI Components
-- **Backend:** FastAPI, Python
-- **Database:** MongoDB
-- **State Management:** React Hooks
-- **UI Components:** Shadcn (Cards, Buttons, Dialogs, Forms, Toast)
-- **Icons:** Lucide React
-
-## Next Tasks
-1. Build backend API with MongoDB models and endpoints
-2. Integrate frontend with backend APIs
-3. Add email notification service
-4. Test end-to-end booking and contact flows
-5. Add admin panel for package management
+## Design Guidelines
+- Primary Color: Teal (#14b8a6, #0d9488)
+- Accent: Ocean Blue (#06b6d4)
+- Logo colors integrated throughout
+- Tropical beach theme
+- Clean, modern interface
+- Card-based layouts
+- Hover animations and transitions
