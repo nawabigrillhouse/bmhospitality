@@ -209,6 +209,42 @@ const BohraStay = () => {
           stayData={bohraStayOptions.apartments} 
         />
 
+        {/* Special Dawoodi Bohra Features */}
+        <div className="mt-16 mb-12 bg-gradient-to-br from-teal-50 to-blue-50 rounded-2xl shadow-xl p-10 border-2 border-teal-200">
+          <div className="text-center mb-8">
+            <h3 className="text-3xl font-bold text-gray-800 mb-3">Special Features for Dawoodi Bohra Community</h3>
+            <p className="text-lg text-gray-600">Exclusive facilities catering to the Dawoodi Bohra tradition and culture</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {bohraSpecialFeatures.map((feature, index) => (
+              <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow">
+                <div className="text-4xl mb-3 text-center">{feature.icon}</div>
+                <h4 className="text-lg font-bold text-gray-800 mb-2 text-center">{feature.title}</h4>
+                <p className="text-sm text-gray-600 text-center">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Package Includes */}
+          <div className="bg-white rounded-xl p-6 shadow-md">
+            <h4 className="text-2xl font-bold text-center text-gray-800 mb-4">
+              Rate Per Night Includes
+            </h4>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {bohraPackageIncludes.map((item, index) => (
+                <div key={index} className="flex items-center justify-center space-x-2 bg-teal-50 p-3 rounded-lg">
+                  <Check className="w-5 h-5 text-teal-600 flex-shrink-0" />
+                  <span className="text-sm font-semibold text-gray-700">{item}</span>
+                </div>
+              ))}
+            </div>
+            <p className="text-center mt-4 text-base font-bold text-teal-700">
+              ✨ Stay + Sightseeing + Transfers + Food - All Included!
+            </p>
+          </div>
+        </div>
+
         {/* Amenities Section */}
         <div className="mt-16 bg-white rounded-2xl shadow-xl p-8 border-2 border-teal-100">
           <h3 className="text-3xl font-bold text-center text-gray-800 mb-8">Complete Amenities Package</h3>
