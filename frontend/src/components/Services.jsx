@@ -1,12 +1,12 @@
 import React from 'react';
-import { Palmtree, Briefcase, Mountain, Crown, Map, Phone } from 'lucide-react';
+import { Palmtree, MapPin, Globe, Home, Map, Phone } from 'lucide-react';
 import { services } from '../mock';
 
 const iconMap = {
   Palmtree,
-  Briefcase,
-  Mountain,
-  Crown,
+  MapPin,
+  Globe,
+  Home,
   Map,
   Phone
 };
