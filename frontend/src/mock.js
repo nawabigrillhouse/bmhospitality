@@ -188,7 +188,6 @@ export const internationalPackages = [
   }
 ];
 
-// Goa Hotels & Resorts
 export const goaPackages = [
   {
     id: 1,
@@ -249,6 +248,100 @@ export const goaPackages = [
       "Seafood specialties"
     ],
     priceStart: "5,000"
+  }
+];
+
+// Goa Travel Package Types
+export const goaTravelPackageTypes = [
+  {
+    id: 1,
+    name: "Beach Bliss Package",
+    duration: "3 Days / 2 Nights",
+    image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800",
+    description: "Perfect beach getaway with water sports, beach shacks, and sunset views.",
+    price: "8,999",
+    highlights: [
+      "Beach resort accommodation",
+      "Water sports activities",
+      "Beach shack dining experience",
+      "Sunset cruise",
+      "All transfers"
+    ]
+  },
+  {
+    id: 2,
+    name: "Adventure Goa",
+    duration: "4 Days / 3 Nights",
+    image: "https://images.unsplash.com/photo-1587595431973-160d0d94add1?w=800",
+    description: "Thrilling water sports, trekking, and adventure activities in Goa.",
+    price: "12,499",
+    highlights: [
+      "Hotel accommodation",
+      "Scuba diving & parasailing",
+      "Dudhsagar waterfall trek",
+      "Spice plantation tour",
+      "All adventure equipment"
+    ]
+  },
+  {
+    id: 3,
+    name: "Romantic Honeymoon",
+    duration: "5 Days / 4 Nights",
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+    description: "Romantic escapes with private beach dinners, spa, and luxury stays.",
+    price: "18,999",
+    highlights: [
+      "Luxury resort stay",
+      "Candlelight beach dinner",
+      "Couple spa treatment",
+      "Yacht cruise",
+      "Complimentary room decor"
+    ]
+  },
+  {
+    id: 4,
+    name: "Family Fun Package",
+    duration: "4 Days / 3 Nights",
+    image: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800",
+    description: "Family-friendly activities, resort with kids' club, and beach fun.",
+    price: "15,999",
+    highlights: [
+      "Family resort accommodation",
+      "Kids club activities",
+      "Beach games & fun",
+      "Dolphin spotting tour",
+      "Family meals included"
+    ]
+  },
+  {
+    id: 5,
+    name: "Budget Explorer",
+    duration: "3 Days / 2 Nights",
+    image: "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=800",
+    description: "Affordable Goa experience with beach stays and local exploration.",
+    price: "6,499",
+    highlights: [
+      "Comfortable hotel stay",
+      "Beach hopping tour",
+      "Local market visits",
+      "Goan cuisine experience",
+      "Budget-friendly activities"
+    ]
+  },
+  {
+    id: 6,
+    name: "Party & Nightlife",
+    duration: "3 Days / 2 Nights",
+    image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800",
+    description: "Experience Goa's vibrant nightlife, beach clubs, and party scene.",
+    price: "10,999",
+    highlights: [
+      "Beachfront hotel",
+      "Club entry passes",
+      "Beach parties access",
+      "Night cruise",
+      "Breakfast included"
+    ]
   }
 ];
 
