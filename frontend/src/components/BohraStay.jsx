@@ -179,6 +179,29 @@ const BohraStay = () => {
                     </div>
                   </div>
                 </div>
+                
+                {/* Special Bohra Features */}
+                <div className="mt-3 bg-gradient-to-r from-orange-50 to-amber-50 p-3 rounded-lg border border-orange-100">
+                  <p className="text-xs font-bold text-orange-800 mb-2">🕌 Bohra Special Features:</p>
+                  <div className="space-y-1">
+                    <div className="flex items-start text-xs text-gray-700">
+                      <span className="mr-1">🍽️</span>
+                      <span>Bohra Cuisine Available</span>
+                    </div>
+                    <div className="flex items-start text-xs text-gray-700">
+                      <span className="mr-1">🥘</span>
+                      <span>Thaal, Safra & Kunli</span>
+                    </div>
+                    <div className="flex items-start text-xs text-gray-700">
+                      <span className="mr-1">🚪</span>
+                      <span>Food at Doorstep</span>
+                    </div>
+                    <div className="flex items-start text-xs text-gray-700">
+                      <span className="mr-1">📿</span>
+                      <span>Prayer Facilities on Request</span>
+                    </div>
+                  </div>
+                </div>
               </div>
               
               <Button 
