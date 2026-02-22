@@ -254,35 +254,122 @@ export const goaPackages = [
 
 // Dawoodi Bohra Stay Options
 export const bohraStayOptions = {
-  luxuryPrivateVilla: {
-    name: "Luxury Private Villa with Private Pool",
+  privateVillaCommonPool: {
+    name: "Private Villa with Common Pool",
+    subtitle: "Semi Luxury & Furnished Villa with Full In-house Amenities",
     options: [
-      { bhk: "2 BHK", capacity: "4-6 Guests", image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800" },
-      { bhk: "3 BHK", capacity: "6-8 Guests", image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
-      { bhk: "4 BHK", capacity: "8-10 Guests", image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800" },
-      { bhk: "5 BHK", capacity: "10-12 Guests", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800" }
-    ],
-    amenities: ["Private swimming pool", "Fully furnished", "Modern kitchen", "Air conditioning", "WiFi", "Parking"]
+      { 
+        bhk: "2 BHK", 
+        capacity: "4-6 Person",
+        option1: "2BHK Per unit for 4 person",
+        option2: "2BHK Per unit for 4-6 person",
+        price: "18,500",
+        image: "https://images.unsplash.com/photo-1598228723793-52759bba239c?w=800"
+      },
+      { 
+        bhk: "3 BHK", 
+        capacity: "6-9 Person",
+        option1: "3BHK Per unit for 6 person",
+        option2: "3BHK Per unit for 6-9 person",
+        price: "21,000",
+        note: "Budget Friendly for the group at affordable cost",
+        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800"
+      },
+      { 
+        bhk: "4 BHK", 
+        capacity: "8-12 Person",
+        option1: "4BHK Per unit for 8 person",
+        option2: "4BHK Per unit for 8-12 person",
+        price: "24,000",
+        image: "https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=800"
+      },
+      { 
+        bhk: "5 BHK", 
+        capacity: "10-15 Person",
+        option1: "5BHK Per unit for 10 person",
+        option2: "5BHK Per unit for 10-15 person",
+        price: "30,000",
+        image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800"
+      }
+    ]
   },
-  semiLuxuryVilla: {
-    name: "Semi-Luxury Villa with Common Pool",
+  privateVillaPrivatePool: {
+    name: "Private Villa with Private Pool",
+    subtitle: "Premium & Luxury Stay having Fully Furnished Villa with Full In-house Amenities",
     options: [
-      { bhk: "2 BHK", capacity: "4-6 Guests", image: "https://images.unsplash.com/photo-1598228723793-52759bba239c?w=800" },
-      { bhk: "3 BHK", capacity: "6-8 Guests", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800" },
-      { bhk: "4 BHK", capacity: "8-10 Guests", image: "https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=800" },
-      { bhk: "5 BHK", capacity: "10-12 Guests", image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800" }
-    ],
-    amenities: ["Common swimming pool", "Fully furnished", "Kitchen facilities", "Air conditioning", "WiFi", "Parking"]
+      { 
+        bhk: "2 BHK", 
+        capacity: "4-5 Person",
+        option1: "2BHK Per unit for 4 person",
+        option2: "2BHK Per unit for 4-5 person",
+        price: "22,000",
+        image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800"
+      },
+      { 
+        bhk: "3 BHK", 
+        capacity: "6-8 Person",
+        option1: "3BHK Per unit for 6 person",
+        option2: "3BHK Per unit for 6-8 person",
+        price: "28,500",
+        image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800"
+      },
+      { 
+        bhk: "4 BHK", 
+        capacity: "8-10 Person",
+        option1: "4BHK Per unit for 8 person",
+        option2: "4BHK Per unit for 8-10 person",
+        price: "32,500",
+        image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800"
+      },
+      { 
+        bhk: "5 BHK", 
+        capacity: "10-14 Person",
+        option1: "5BHK Per unit for 10 person",
+        option2: "5BHK Per unit for 10-14 person",
+        price: "58,500",
+        image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800"
+      }
+    ]
   },
   apartments: {
-    name: "Apartments with Common Pool",
+    name: "2BHK & 3BHK Apartments with Common Pool",
+    subtitle: "Semi Furnished and Fully Furnished Apartment with Common Pool",
     options: [
-      { bhk: "2 BHK", capacity: "4-6 Guests", image: "https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=800" },
-      { bhk: "3 BHK", capacity: "6-8 Guests", image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800" }
-    ],
-    amenities: ["Common swimming pool", "Furnished apartments", "Kitchen available", "AC in bedrooms", "WiFi", "Secure parking"]
+      { 
+        bhk: "2 BHK", 
+        capacity: "4-6 Person",
+        option1: "2BHK Per unit for 4 person",
+        option2: "2BHK Per unit for 4-6 person",
+        price: "16,500",
+        image: "https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=800"
+      },
+      { 
+        bhk: "3 BHK", 
+        capacity: "6-9 Person",
+        option1: "3BHK Per unit for 6 person",
+        option2: "3BHK Per unit for 6-9 person",
+        price: "18,000",
+        image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800"
+      }
+    ]
   }
 };
+
+export const bohraAmenities = [
+  "TV",
+  "Fridge",
+  "AC in bedrooms",
+  "Washing machine",
+  "Sofa sets",
+  "Dining table",
+  "Aquaguard",
+  "Owen",
+  "Electric heater for food preparation",
+  "Cutleries, folk and spoon",
+  "WiFi and Inverter backup",
+  "24 x 7 caretaker on call and on site",
+  "Security surveillance"
+];
 
 export const testimonials = [
   {
