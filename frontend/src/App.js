@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
 import Packages from "./components/Packages";
+import GoaPackage from "./components/GoaPackage";
 import BohraStay from "./components/BohraStay";
 import Gallery from "./components/Gallery";
 import Testimonials from "./components/Testimonials";
@@ -18,6 +19,7 @@ function App() {
         <Hero />
         <Services />
         <Packages />
+        <GoaPackage />
         <BohraStay />
         <Gallery />
         <Testimonials />

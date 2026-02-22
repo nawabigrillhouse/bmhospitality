@@ -45,8 +45,8 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <button onClick={() => scrollToSection('hero')} className="nav-link">Home</button>
             <button onClick={() => scrollToSection('packages')} className="nav-link">Packages</button>
+            <button onClick={() => scrollToSection('goa-packages')} className="nav-link">Goa Packages</button>
             <button onClick={() => scrollToSection('bohra-stay')} className="nav-link">Bohra Stay</button>
-            <button onClick={() => scrollToSection('gallery')} className="nav-link">Gallery</button>
             <button onClick={() => scrollToSection('testimonials')} className="nav-link">Testimonials</button>
             <button onClick={() => scrollToSection('contact')} className="nav-link">Contact</button>
           </nav>
@@ -76,8 +76,8 @@ const Header = () => {
             <div className="flex flex-col space-y-3">
               <button onClick={() => scrollToSection('hero')} className="mobile-nav-link">Home</button>
               <button onClick={() => scrollToSection('packages')} className="mobile-nav-link">Packages</button>
+              <button onClick={() => scrollToSection('goa-packages')} className="mobile-nav-link">Goa Packages</button>
               <button onClick={() => scrollToSection('bohra-stay')} className="mobile-nav-link">Bohra Stay</button>
-              <button onClick={() => scrollToSection('gallery')} className="mobile-nav-link">Gallery</button>
               <button onClick={() => scrollToSection('testimonials')} className="mobile-nav-link">Testimonials</button>
               <button onClick={() => scrollToSection('contact')} className="mobile-nav-link">Contact</button>
               <Button 
