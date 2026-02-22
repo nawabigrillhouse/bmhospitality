@@ -1,146 +1,325 @@
 // Mock data for BM Hospitality Travel Website
 
-export const travelPackages = [
+// Domestic India Packages
+export const domesticPackages = [
   {
     id: 1,
-    name: "Maldives Paradise Escape",
-    destination: "Maldives",
-    duration: "7 Days / 6 Nights",
-    price: 2499,
-    image: "https://images.pexels.com/photos/34519397/pexels-photo-34519397.jpeg",
-    description: "Experience luxury overwater villas, crystal-clear lagoons, and world-class diving in the Maldives.",
+    name: "Golden Triangle Tour",
+    destination: "Delhi, Agra, Jaipur",
+    duration: "5 Days / 4 Nights",
+    image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800",
+    description: "Explore India's most iconic monuments including Taj Mahal, Amber Fort, and historic Delhi.",
     highlights: [
-      "Overwater villa accommodation",
-      "Daily breakfast and dinner",
-      "Snorkeling and diving equipment",
-      "Spa treatment session",
-      "Airport transfers"
-    ],
-    category: "Beach & Luxury"
+      "Visit Taj Mahal & Agra Fort",
+      "Explore Jaipur's palaces",
+      "Delhi city tour",
+      "Professional guide",
+      "All transfers included"
+    ]
   },
   {
     id: 2,
-    name: "Bali Cultural Adventure",
-    destination: "Bali, Indonesia",
-    duration: "5 Days / 4 Nights",
-    price: 1299,
-    image: "https://images.unsplash.com/photo-1549294413-26f195200c16",
-    description: "Discover ancient temples, lush rice terraces, and vibrant Balinese culture in this immersive experience.",
+    name: "Kerala Backwaters",
+    destination: "Kerala",
+    duration: "6 Days / 5 Nights",
+    image: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=800",
+    description: "Experience serene backwaters, lush greenery, and traditional Kerala hospitality.",
     highlights: [
-      "4-star resort accommodation",
-      "Guided temple tours",
-      "Traditional Balinese cooking class",
-      "Rice terrace trekking",
-      "Cultural dance performance"
-    ],
-    category: "Cultural & Adventure"
+      "Houseboat stay",
+      "Ayurvedic spa treatment",
+      "Tea plantation visit",
+      "Traditional cuisine",
+      "Beach resort stay"
+    ]
   },
   {
     id: 3,
-    name: "Caribbean Cruise Deluxe",
-    destination: "Caribbean Islands",
-    duration: "10 Days / 9 Nights",
-    price: 3899,
-    image: "https://images.pexels.com/photos/28443535/pexels-photo-28443535.jpeg",
-    description: "Sail through pristine Caribbean waters, visiting multiple tropical islands on this luxury cruise.",
+    name: "Kashmir Paradise",
+    destination: "Srinagar, Gulmarg, Pahalgam",
+    duration: "7 Days / 6 Nights",
+    image: "https://images.unsplash.com/photo-1609920658906-8223bd289001?w=800",
+    description: "Discover the Switzerland of India with stunning valleys, mountains, and Dal Lake.",
     highlights: [
-      "Premium cabin on luxury liner",
-      "All meals and entertainment",
-      "7 island destinations",
-      "Water sports activities",
-      "Onboard casino and spa"
-    ],
-    category: "Cruise & Luxury"
+      "Shikara ride on Dal Lake",
+      "Gulmarg Gondola ride",
+      "Mughal gardens visit",
+      "Houseboat experience",
+      "Snow activities (seasonal)"
+    ]
   },
   {
     id: 4,
-    name: "Thailand Beach Retreat",
-    destination: "Phuket, Thailand",
-    duration: "6 Days / 5 Nights",
-    price: 1599,
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
-    description: "Relax on pristine beaches, explore vibrant nightlife, and indulge in authentic Thai cuisine.",
+    name: "Rajasthan Royal Heritage",
+    destination: "Udaipur, Jodhpur, Jaisalmer",
+    duration: "8 Days / 7 Nights",
+    image: "https://images.unsplash.com/photo-1545413151-a882b9f67a47?w=800",
+    description: "Experience royal palaces, desert safaris, and rich cultural heritage of Rajasthan.",
     highlights: [
-      "Beachfront resort stay",
-      "Island hopping tour",
-      "Thai massage sessions",
-      "Sunset dinner cruise",
-      "City and beach transfers"
-    ],
-    category: "Beach & Relaxation"
+      "Palace and fort tours",
+      "Desert camel safari",
+      "Cultural performances",
+      "Lake Pichola boat ride",
+      "Heritage hotel stay"
+    ]
   },
   {
     id: 5,
-    name: "Dubai Luxury Experience",
-    destination: "Dubai, UAE",
-    duration: "5 Days / 4 Nights",
-    price: 2199,
-    image: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9",
-    description: "Experience opulence in the city of gold with luxury hotels, desert safaris, and world-class shopping.",
+    name: "Himachal Hill Stations",
+    destination: "Shimla, Manali, Dharamshala",
+    duration: "6 Days / 5 Nights",
+    image: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800",
+    description: "Explore beautiful hill stations, adventure activities, and peaceful monasteries.",
     highlights: [
-      "5-star hotel accommodation",
-      "Desert safari with BBQ dinner",
-      "Burj Khalifa observation deck",
-      "Dubai Mall shopping tour",
-      "Private city tour"
-    ],
-    category: "Luxury & Urban"
+      "Rohtang Pass visit",
+      "Adventure activities",
+      "Mall Road shopping",
+      "Monastery visits",
+      "Scenic mountain views"
+    ]
   },
   {
     id: 6,
-    name: "Greece Island Hopping",
-    destination: "Santorini & Mykonos",
-    duration: "8 Days / 7 Nights",
-    price: 2799,
-    image: "https://images.pexels.com/photos/2506988/pexels-photo-2506988.jpeg",
-    description: "Explore the stunning Greek islands, from Santorini's sunsets to Mykonos' vibrant nightlife.",
+    name: "Andaman Beach Escape",
+    destination: "Port Blair, Havelock, Neil Island",
+    duration: "5 Days / 4 Nights",
+    image: "https://images.unsplash.com/photo-1618330834162-de554c7b0df5?w=800",
+    description: "Pristine beaches, crystal-clear waters, and amazing water sports in Andaman Islands.",
     highlights: [
-      "Boutique hotel stays",
-      "Ferry transfers between islands",
-      "Wine tasting tour",
-      "Private yacht cruise",
-      "Traditional Greek cooking class"
-    ],
-    category: "Cultural & Beach"
+      "Radhanagar Beach visit",
+      "Scuba diving & snorkeling",
+      "Water sports activities",
+      "Island hopping",
+      "Cellular Jail tour"
+    ]
   }
 ];
+
+// International Packages
+export const internationalPackages = [
+  {
+    id: 1,
+    name: "Maldives Luxury Retreat",
+    destination: "Maldives",
+    duration: "5 Days / 4 Nights",
+    image: "https://images.pexels.com/photos/34519397/pexels-photo-34519397.jpeg",
+    description: "Experience luxury overwater villas, crystal-clear lagoons, and world-class diving.",
+    highlights: [
+      "Overwater villa stay",
+      "Water sports & diving",
+      "Spa treatments",
+      "Island hopping",
+      "Romantic dinners"
+    ]
+  },
+  {
+    id: 2,
+    name: "Dubai Extravaganza",
+    destination: "Dubai, UAE",
+    duration: "5 Days / 4 Nights",
+    image: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800",
+    description: "Experience opulence with luxury hotels, desert safaris, and world-class shopping.",
+    highlights: [
+      "Burj Khalifa visit",
+      "Desert safari with BBQ",
+      "Dubai Mall shopping",
+      "Dubai Marina cruise",
+      "City tour"
+    ]
+  },
+  {
+    id: 3,
+    name: "Thailand Beach Paradise",
+    destination: "Phuket, Krabi, Bangkok",
+    duration: "6 Days / 5 Nights",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800",
+    description: "Explore pristine beaches, vibrant nightlife, and authentic Thai culture.",
+    highlights: [
+      "Beach resort stay",
+      "Island hopping tour",
+      "Thai massage & spa",
+      "Bangkok city tour",
+      "Water activities"
+    ]
+  },
+  {
+    id: 4,
+    name: "Bali Cultural Journey",
+    destination: "Bali, Indonesia",
+    duration: "6 Days / 5 Nights",
+    image: "https://images.unsplash.com/photo-1549294413-26f195200c16?w=800",
+    description: "Discover ancient temples, lush rice terraces, and vibrant Balinese culture.",
+    highlights: [
+      "Temple tours",
+      "Rice terrace trekking",
+      "Balinese cooking class",
+      "Beach club experience",
+      "Cultural performances"
+    ]
+  },
+  {
+    id: 5,
+    name: "Singapore & Malaysia",
+    destination: "Singapore, Kuala Lumpur",
+    duration: "7 Days / 6 Nights",
+    image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=800",
+    description: "Explore modern cities, theme parks, and diverse cultures of Southeast Asia.",
+    highlights: [
+      "Universal Studios",
+      "Marina Bay Sands",
+      "Petronas Twin Towers",
+      "Gardens by the Bay",
+      "Shopping & dining"
+    ]
+  },
+  {
+    id: 6,
+    name: "Europe Grand Tour",
+    destination: "Paris, Switzerland, Italy",
+    duration: "10 Days / 9 Nights",
+    image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800",
+    description: "Experience the best of Europe with iconic landmarks, stunning landscapes, and rich history.",
+    highlights: [
+      "Eiffel Tower visit",
+      "Swiss Alps experience",
+      "Colosseum & Vatican",
+      "Scenic train rides",
+      "European cuisine"
+    ]
+  }
+];
+
+// Goa Hotels & Resorts
+export const goaPackages = [
+  {
+    id: 1,
+    name: "Luxury Beach Resort",
+    location: "North Goa - Calangute",
+    image: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=800",
+    description: "5-star beachfront resort with private beach, infinity pool, and world-class amenities.",
+    amenities: [
+      "Private beach access",
+      "Infinity swimming pool",
+      "Multi-cuisine restaurant",
+      "Spa & wellness center",
+      "Water sports facilities"
+    ],
+    priceStart: "3,500"
+  },
+  {
+    id: 2,
+    name: "Heritage Hotel",
+    location: "South Goa - Benaulim",
+    image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
+    description: "Boutique heritage property with traditional Goan architecture and modern comforts.",
+    amenities: [
+      "Heritage architecture",
+      "Garden & pool",
+      "Goan cuisine restaurant",
+      "Yoga sessions",
+      "Complimentary breakfast"
+    ],
+    priceStart: "4,200"
+  },
+  {
+    id: 3,
+    name: "Family Resort",
+    location: "North Goa - Baga",
+    image: "https://images.unsplash.com/photo-1551918120-9739cb430c6d?w=800",
+    description: "Family-friendly resort with kids' activities, multiple pools, and entertainment.",
+    amenities: [
+      "Kids play area",
+      "Multiple pools",
+      "Family rooms available",
+      "Entertainment programs",
+      "Beach proximity"
+    ],
+    priceStart: "3,800"
+  },
+  {
+    id: 4,
+    name: "Boutique Beach Villa",
+    location: "South Goa - Palolem",
+    image: "https://images.pexels.com/photos/2506988/pexels-photo-2506988.jpeg?w=800",
+    description: "Intimate boutique villa with personalized service and stunning beach views.",
+    amenities: [
+      "Personalized service",
+      "Beachfront location",
+      "Private balconies",
+      "Sunset views",
+      "Seafood specialties"
+    ],
+    priceStart: "5,000"
+  }
+];
+
+// Dawoodi Bohra Stay Options
+export const bohraStayOptions = {
+  luxuryPrivateVilla: {
+    name: "Luxury Private Villa with Private Pool",
+    options: [
+      { bhk: "2 BHK", capacity: "4-6 Guests", image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800" },
+      { bhk: "3 BHK", capacity: "6-8 Guests", image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800" },
+      { bhk: "4 BHK", capacity: "8-10 Guests", image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800" },
+      { bhk: "5 BHK", capacity: "10-12 Guests", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800" }
+    ],
+    amenities: ["Private swimming pool", "Fully furnished", "Modern kitchen", "Air conditioning", "WiFi", "Parking"]
+  },
+  semiLuxuryVilla: {
+    name: "Semi-Luxury Villa with Common Pool",
+    options: [
+      { bhk: "2 BHK", capacity: "4-6 Guests", image: "https://images.unsplash.com/photo-1598228723793-52759bba239c?w=800" },
+      { bhk: "3 BHK", capacity: "6-8 Guests", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800" },
+      { bhk: "4 BHK", capacity: "8-10 Guests", image: "https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=800" },
+      { bhk: "5 BHK", capacity: "10-12 Guests", image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800" }
+    ],
+    amenities: ["Common swimming pool", "Fully furnished", "Kitchen facilities", "Air conditioning", "WiFi", "Parking"]
+  },
+  apartments: {
+    name: "Apartments with Common Pool",
+    options: [
+      { bhk: "2 BHK", capacity: "4-6 Guests", image: "https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=800" },
+      { bhk: "3 BHK", capacity: "6-8 Guests", image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800" }
+    ],
+    amenities: ["Common swimming pool", "Furnished apartments", "Kitchen available", "AC in bedrooms", "WiFi", "Secure parking"]
+  }
+};
 
 export const testimonials = [
   {
     id: 1,
-    name: "Sarah Johnson",
-    location: "New York, USA",
+    name: "Fatema Merchant",
+    location: "Mumbai, India",
     rating: 5,
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400",
-    comment: "BM Hospitality made our Maldives honeymoon absolutely magical! Every detail was perfectly planned, and the resort was beyond our expectations. We'll definitely book with them again!",
-    package: "Maldives Paradise Escape"
+    comment: "BM Hospitality arranged a wonderful Kashmir tour for our family. Everything was perfectly organized and the experience was unforgettable!",
+    package: "Kashmir Paradise"
   },
   {
     id: 2,
-    name: "Rajesh Kumar",
-    location: "Mumbai, India",
+    name: "Ahmed Sheikh",
+    location: "Surat, India",
     rating: 5,
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
-    comment: "The Bali cultural tour was an incredible experience. Our guide was knowledgeable, the accommodations were fantastic, and we learned so much about Balinese culture. Highly recommended!",
-    package: "Bali Cultural Adventure"
+    comment: "Our Dubai trip was amazing! BM Hospitality took care of every detail. Highly recommend their services for international travel.",
+    package: "Dubai Extravaganza"
   },
   {
     id: 3,
-    name: "Emily Chen",
-    location: "Singapore",
+    name: "Zainab Patel",
+    location: "Pune, India",
     rating: 5,
     image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400",
-    comment: "The Caribbean cruise exceeded all expectations! The itinerary was perfect, and the customer service from BM Hospitality was outstanding throughout our journey.",
-    package: "Caribbean Cruise Deluxe"
+    comment: "We stayed in a beautiful villa in Goa arranged by BM Hospitality. Perfect for our family gathering. Very comfortable and well-maintained!",
+    package: "Goa Villa Stay"
   },
   {
     id: 4,
-    name: "Michael Brown",
-    location: "London, UK",
+    name: "Taher Bookwala",
+    location: "Bangalore, India",
     rating: 5,
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400",
-    comment: "Dubai was spectacular! BM Hospitality arranged everything flawlessly - from the luxury hotel to the desert safari. It was truly a five-star experience from start to finish.",
-    package: "Dubai Luxury Experience"
+    comment: "Excellent service! The Kerala backwaters tour was serene and beautifully planned. BM Hospitality exceeded our expectations.",
+    package: "Kerala Backwaters"
   }
 ];
 
