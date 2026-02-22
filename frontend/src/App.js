@@ -2,6 +2,7 @@ import "./App.css";
 import { Toaster } from "./components/ui/sonner";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
+import QuickEnquiryForm from "./components/QuickEnquiryForm";
 import Services from "./components/Services";
 import Packages from "./components/Packages";
 import GoaPackage from "./components/GoaPackage";
@@ -17,6 +18,7 @@ function App() {
       <Header />
       <main>
         <Hero />
+        <QuickEnquiryForm />
         <Services />
         <Packages />
         <GoaPackage />
