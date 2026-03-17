@@ -18,7 +18,7 @@ const OffersDeals = () => {
       id: 2,
       title: "Goa Summer Special",
       description: "Exclusive deals on Goa hotels and resorts for summer season",
-      discount: "₹5,000 OFF",
+      discount: "5,000 OFF",
       validTill: "April 30, 2025",
       image: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800",
       category: "Goa Packages"
@@ -45,7 +45,7 @@ const OffersDeals = () => {
       id: 5,
       title: "Bohra Community Special",
       description: "Exclusive rates for Dawoodi Bohra community stays in Goa",
-      discount: "₹3,000 OFF",
+      discount: "3,000 OFF",
       validTill: "June 30, 2025",
       image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800",
       category: "Bohra Stays"
@@ -69,12 +69,12 @@ const OffersDeals = () => {
   };
 
   return (
-    <section id="offers" className="py-20 bg-gradient-to-b from-white to-red-50/30">
+    <section id="offers" className="py-20 bg-gradient-to-b from-white to-green-50/40">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center mb-4">
-            <Gift className="w-12 h-12 text-red-600 mr-3" />
-            <h2 className="section-title mb-0">Exclusive Offers & Deals</h2>
+            <Gift className="w-12 h-12 text-olive-700 mr-3" style={{ color: '#6b7c3e' }} />
+            <h2 className="section-title mb-0" data-testid="offers-title">Exclusive Offers & Deals</h2>
           </div>
           <p className="section-subtitle">
             Special discounts and limited-time offers on travel packages - Save big on your next adventure!
@@ -83,14 +83,12 @@ const OffersDeals = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {offers.map((offer) => (
-            <Card key={offer.id} className="overflow-hidden hover:shadow-2xl transition-all duration-300 group">
+            <Card key={offer.id} className="overflow-hidden hover:shadow-2xl transition-all duration-300 group border-green-100" data-testid={`offer-card-${offer.id}`}>
               <div className="relative h-48 overflow-hidden">
-                <img
-                  src={offer.image}
-                  alt={offer.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg flex items-center">
+                <img src={offer.image} alt={offer.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <div className="absolute top-4 right-4 px-4 py-2 rounded-full font-bold text-sm shadow-lg flex items-center text-white"
+                  style={{ backgroundColor: '#6b7c3e' }}>
                   <Percent className="w-4 h-4 mr-1" />
                   {offer.discount}
                 </div>
@@ -100,35 +98,30 @@ const OffersDeals = () => {
               </div>
 
               <CardHeader>
-                <CardTitle className="text-xl group-hover:text-red-600 transition-colors">
+                <CardTitle className="text-xl group-hover:text-green-700 transition-colors">
                   {offer.title}
                 </CardTitle>
-                <CardDescription className="text-base mt-2">
-                  {offer.description}
-                </CardDescription>
+                <CardDescription className="text-base mt-2">{offer.description}</CardDescription>
               </CardHeader>
 
               <CardContent>
                 <div className="flex items-center text-sm text-gray-600 mb-4">
-                  <Clock className="w-4 h-4 mr-2 text-red-600" />
+                  <Clock className="w-4 h-4 mr-2" style={{ color: '#6b7c3e' }} />
                   <span>Valid till: <strong>{offer.validTill}</strong></span>
                 </div>
-                
-                <div className="bg-red-50 p-3 rounded-lg border border-red-100">
+                <div className="p-3 rounded-lg border" style={{ backgroundColor: '#f0f4e8', borderColor: '#d4dfc4' }}>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-red-700">Special Discount</span>
-                    <span className="text-2xl font-bold text-red-600">{offer.discount}</span>
+                    <span className="text-sm font-semibold" style={{ color: '#4a5a2b' }}>Special Discount</span>
+                    <span className="text-2xl font-bold" style={{ color: '#6b7c3e' }}>{offer.discount}</span>
                   </div>
                 </div>
               </CardContent>
 
               <CardFooter>
-                <Button
-                  onClick={scrollToEnquiry}
-                  className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-5"
-                >
-                  <Tag className="w-4 h-4 mr-2" />
-                  Claim This Offer
+                <Button onClick={scrollToEnquiry} data-testid={`claim-offer-${offer.id}`}
+                  className="w-full text-white font-semibold py-5 hover:opacity-90"
+                  style={{ backgroundColor: '#6b7c3e' }}>
+                  <Tag className="w-4 h-4 mr-2" /> Claim This Offer
                 </Button>
               </CardFooter>
             </Card>
@@ -136,14 +129,13 @@ const OffersDeals = () => {
         </div>
 
         {/* Special Banner */}
-        <div className="mt-16 bg-gradient-to-r from-red-600 to-orange-600 rounded-2xl p-8 text-center text-white shadow-2xl">
+        <div className="mt-16 rounded-2xl p-8 text-center text-white shadow-2xl"
+          style={{ background: 'linear-gradient(135deg, #6b7c3e 0%, #8a9e56 50%, #5a6b32 100%)' }}>
           <h3 className="text-3xl font-bold mb-3">Limited Time Offers!</h3>
-          <p className="text-xl mb-6">Don't miss out on these amazing deals. Book now and save big on your dream vacation!</p>
-          <Button
-            onClick={scrollToEnquiry}
-            size="lg"
-            className="bg-white text-red-600 hover:bg-gray-100 px-8 py-6 text-lg font-bold"
-          >
+          <p className="text-xl mb-6 text-white/90">Don't miss out on these amazing deals. Book now and save big on your dream vacation!</p>
+          <Button onClick={scrollToEnquiry} size="lg" data-testid="view-all-offers-btn"
+            className="bg-white hover:bg-gray-100 px-8 py-6 text-lg font-bold"
+            style={{ color: '#6b7c3e' }}>
             View All Packages & Book Now
           </Button>
         </div>
