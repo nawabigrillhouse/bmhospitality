@@ -56,7 +56,7 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-6">
             <button onClick={() => scrollToSection('packages')} className="nav-link">Packages</button>
-            <button onClick={() => scrollToSection('goa-packages')} className="nav-link">Goa Packages</button>
+            <button onClick={() => scrollToSection('goa-packages')} className="nav-link">Goa Holidays</button>
             <button onClick={() => scrollToSection('hotels-resorts')} className="nav-link">Hotels & Resorts</button>
             <button onClick={() => scrollToSection('bohra-stay')} className="nav-link">Bohra Mumeneen Stays</button>
             <button onClick={() => scrollToSection('flight-inquiry')} className="nav-link">Flight Inquiry</button>
@@ -118,7 +118,7 @@ const Header = () => {
             
             <div className="flex flex-col space-y-3">
               <button onClick={() => scrollToSection('packages')} className="mobile-nav-link">Packages</button>
-              <button onClick={() => scrollToSection('goa-packages')} className="mobile-nav-link">Goa Packages</button>
+              <button onClick={() => scrollToSection('goa-packages')} className="mobile-nav-link">Goa Holidays</button>
               <button onClick={() => scrollToSection('hotels-resorts')} className="mobile-nav-link">Hotels & Resorts</button>
               <button onClick={() => scrollToSection('bohra-stay')} className="mobile-nav-link">Bohra Mumeneen Stays</button>
               <button onClick={() => scrollToSection('flight-inquiry')} className="mobile-nav-link">Flight Inquiry</button>

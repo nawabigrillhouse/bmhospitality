@@ -74,8 +74,14 @@ const FlightInquiry = () => {
             <h2 className="section-title mb-0">Flight Booking Inquiry</h2>
           </div>
           <p className="section-subtitle">
-            Get the best flight deals and options - Share your travel details and receive personalized quotes
+            Get the best flight deals powered by MakeMyTrip - Share your travel details and receive personalized quotes
           </p>
+          <div className="mt-6 bg-blue-50 border-2 border-blue-200 rounded-xl p-4 max-w-3xl mx-auto">
+            <p className="text-blue-800 font-semibold text-base">
+              ✈️ <strong>Special Rates:</strong> Domestic India +₹500 per adult | International +₹2,000 per adult
+            </p>
+            <p className="text-blue-700 text-sm mt-2">Powered by mypartner.makemytrip.com for best flight options</p>
+          </div>
         </div>
 
         <Card className="max-w-4xl mx-auto shadow-xl">

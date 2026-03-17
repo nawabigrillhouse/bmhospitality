@@ -62,7 +62,7 @@ const Hero = () => {
               onClick={() => scrollToSection('contact')}
               className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border-2 border-white px-8 py-6 text-lg font-semibold"
             >
-              Plan My Trip
+              Get Quote
             </Button>
           </div>
         </div>

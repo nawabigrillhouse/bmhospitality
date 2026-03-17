@@ -8,9 +8,9 @@ const OffersDeals = () => {
     {
       id: 1,
       title: "Early Bird Discount",
-      description: "Book 60 days in advance and save up to 25% on all packages",
-      discount: "25% OFF",
-      validTill: "March 31, 2025",
+      description: "Book 45 days in advance and save 10% as special guest discount on all travel packages",
+      discount: "10% OFF",
+      validTill: "Ongoing",
       image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800",
       category: "All Packages"
     },

@@ -3,6 +3,7 @@ import { Toaster } from "./components/ui/sonner";
 import NewsletterPopup from "./components/NewsletterPopup";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
+import InstagramFollow from "./components/InstagramFollow";
 import QuickEnquiryForm from "./components/QuickEnquiryForm";
 import Services from "./components/Services";
 import Packages from "./components/Packages";
@@ -24,6 +25,7 @@ function App() {
       <Header />
       <main>
         <Hero />
+        <InstagramFollow />
         <QuickEnquiryForm />
         <Services />
         <Packages />

@@ -59,9 +59,9 @@ const Contact = () => {
                   <div>
                     <h3 className="font-bold text-gray-800 mb-2">Visit Us</h3>
                     <p className="text-gray-600 text-sm">
-                      123 Travel Street, Suite 456<br />
-                      Paradise City, PC 12345<br />
-                      United States
+                      104 Dattakrupa Apartment<br />
+                      Dattawadi, Mapusa<br />
+                      Goa, India
                     </p>
                   </div>
                 </div>
@@ -77,8 +77,8 @@ const Contact = () => {
                   <div>
                     <h3 className="font-bold text-gray-800 mb-2">Call Us</h3>
                     <p className="text-gray-600 text-sm">
-                      +1 (555) 123-4567<br />
-                      +1 (555) 987-6543
+                      +91 9890765859<br />
+                      +91 8329416113 (WhatsApp)
                     </p>
                   </div>
                 </div>
@@ -94,8 +94,7 @@ const Contact = () => {
                   <div>
                     <h3 className="font-bold text-gray-800 mb-2">Email Us</h3>
                     <p className="text-gray-600 text-sm">
-                      info@bmhospitality.com<br />
-                      bookings@bmhospitality.com
+                      bmhospitality.11@gmail.com
                     </p>
                   </div>
                 </div>
@@ -208,14 +207,14 @@ const Contact = () => {
             {/* Map */}
             <div className="mt-8 rounded-lg overflow-hidden shadow-lg">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.30596073366!2d-74.25986548248684!3d40.69714941932609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3843.8!2d73.8!3d15.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDM2JzAwLjAiTiA3M8KwNDgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin"
                 width="100%"
                 height="400"
                 style={{ border: 0 }}
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="BM Hospitality Location"
+                title="BM Hospitality - Dattakrupa Apartment, Mapusa, Goa"
               ></iframe>
             </div>
           </div>
