@@ -4,6 +4,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Hotel, MapPin, Calendar, Users, Utensils, Mail, Phone, Send } from 'lucide-react';
+import { sendWhatsAppMessage } from '../mock';
 import { toast } from 'sonner';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
@@ -11,15 +12,8 @@ const API_URL = process.env.REACT_APP_BACKEND_URL;
 const HotelsResorts = () => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    destination: '',
-    checkInDate: '',
-    checkOutDate: '',
-    adults: '2',
-    children: '0',
-    childAges: '',
-    mealPlan: 'Room Only',
-    email: '',
-    whatsapp: ''
+    destination: '', checkInDate: '', checkOutDate: '', adults: '2',
+    children: '0', childAges: '', mealPlan: 'Room Only', email: '', whatsapp: ''
   });
 
   const handleInputChange = (e) => {
@@ -30,31 +24,30 @@ const HotelsResorts = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/hotel-inquiry`, {
+      await fetch(`${API_URL}/api/hotel-inquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          destination: formData.destination,
-          check_in_date: formData.checkInDate,
-          check_out_date: formData.checkOutDate,
-          adults: formData.adults,
-          children: formData.children,
-          child_ages: formData.children !== '0' ? formData.childAges : null,
-          meal_plan: formData.mealPlan,
-          email: formData.email,
-          whatsapp: formData.whatsapp
+          destination: formData.destination, check_in_date: formData.checkInDate,
+          check_out_date: formData.checkOutDate, adults: formData.adults,
+          children: formData.children, child_ages: formData.children !== '0' ? formData.childAges : null,
+          meal_plan: formData.mealPlan, email: formData.email, whatsapp: formData.whatsapp
         })
       });
-      const data = await res.json();
-      if (res.ok) {
-        toast.success('Hotel inquiry submitted! We will send you the best options on your email and WhatsApp.');
-        setFormData({
-          destination: '', checkInDate: '', checkOutDate: '', adults: '2',
-          children: '0', childAges: '', mealPlan: 'Room Only', email: '', whatsapp: ''
-        });
-      } else {
-        toast.error(data.detail || 'Something went wrong. Please try again.');
-      }
+
+      const nights = Math.ceil((new Date(formData.checkOutDate) - new Date(formData.checkInDate)) / (1000 * 60 * 60 * 24));
+      let msg = `*Hotel/Resort Inquiry - BM Hospitality*\n\n`;
+      msg += `*Booking Details:*\n`;
+      msg += `Destination: ${formData.destination}\nCheck-in: ${formData.checkInDate}\nCheck-out: ${formData.checkOutDate}\n`;
+      msg += `Nights: ${nights}\nAdults: ${formData.adults}\nChildren: ${formData.children}\n`;
+      if (formData.children !== '0' && formData.childAges) msg += `Children Ages: ${formData.childAges}\n`;
+      msg += `Meal Plan: ${formData.mealPlan}\n\n`;
+      msg += `*Contact:*\nEmail: ${formData.email}\nWhatsApp: ${formData.whatsapp}`;
+      sendWhatsAppMessage(msg);
+
+      toast.success('Hotel inquiry submitted! We will send you the best options on your email and WhatsApp.');
+      setFormData({ destination: '', checkInDate: '', checkOutDate: '', adults: '2',
+        children: '0', childAges: '', mealPlan: 'Room Only', email: '', whatsapp: '' });
     } catch {
       toast.error('Failed to submit. Please try again later.');
     } finally {
@@ -85,7 +78,6 @@ const HotelsResorts = () => {
 
           <CardContent className="p-8">
             <form onSubmit={handleSubmit} className="space-y-6" data-testid="hotel-inquiry-form">
-              {/* Destination */}
               <div>
                 <Label htmlFor="destination" className="text-base font-bold text-gray-800 flex items-center mb-2">
                   <MapPin className="w-5 h-5 mr-2 text-amber-600" /> Destination (Worldwide Search) *
@@ -93,10 +85,8 @@ const HotelsResorts = () => {
                 <Input id="destination" name="destination" value={formData.destination} onChange={handleInputChange}
                   placeholder="Enter city, country, or hotel name (e.g., Paris, Dubai, Maldives)"
                   className="text-base py-6" required data-testid="hotel-destination-input" />
-                <p className="text-sm text-gray-500 mt-1">Search any destination worldwide</p>
               </div>
 
-              {/* Check-in and Check-out */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <Label htmlFor="checkInDate" className="text-base font-semibold flex items-center mb-2">
@@ -116,7 +106,6 @@ const HotelsResorts = () => {
                 </div>
               </div>
 
-              {/* Guests */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <Label htmlFor="adults" className="text-base font-semibold flex items-center mb-2">
@@ -132,18 +121,15 @@ const HotelsResorts = () => {
                 </div>
               </div>
 
-              {/* Child Ages */}
               {formData.children !== '0' && parseInt(formData.children) > 0 && (
                 <div>
                   <Label htmlFor="childAges" className="text-base font-semibold mb-2 block">Ages of Children *</Label>
                   <Input id="childAges" name="childAges" value={formData.childAges} onChange={handleInputChange}
                     placeholder="Enter ages separated by commas (e.g., 5, 8, 12)"
                     className="text-base py-3" required={formData.children !== '0'} />
-                  <p className="text-sm text-gray-500 mt-1">Required for accurate pricing and room allocation</p>
                 </div>
               )}
 
-              {/* Meal Plan */}
               <div>
                 <Label htmlFor="mealPlan" className="text-base font-semibold flex items-center mb-2">
                   <Utensils className="w-5 h-5 mr-2 text-amber-600" /> Meal Plan Preference *
@@ -158,7 +144,6 @@ const HotelsResorts = () => {
                 </select>
               </div>
 
-              {/* Contact Details for Quote */}
               <div className="border-t-2 border-amber-100 pt-6">
                 <h3 className="text-lg font-bold mb-1 text-gray-800">Get Your Personalized Quote</h3>
                 <p className="text-sm text-gray-500 mb-4">Share your contact details and we'll send you the best rates directly</p>
@@ -185,16 +170,12 @@ const HotelsResorts = () => {
               <Button type="submit" disabled={loading} data-testid="hotel-submit-btn"
                 className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white text-lg py-6 font-bold">
                 <Send className="w-5 h-5 mr-2" />
-                {loading ? 'Submitting...' : 'Get My Hotel Quote'}
+                {loading ? 'Submitting...' : 'Get My Hotel Quote via Email & WhatsApp'}
               </Button>
-              <p className="text-center text-sm text-gray-500 mt-2">
-                We'll send the best hotel options and rates to your email and WhatsApp
-              </p>
             </form>
           </CardContent>
         </Card>
 
-        {/* Info Section */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white p-6 rounded-lg shadow-md text-center">
             <MapPin className="w-10 h-10 text-amber-600 mx-auto mb-3" />

@@ -4,6 +4,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Button } from './ui/button';
 import { X, Bell, Gift, Plane } from 'lucide-react';
+import { sendWhatsAppMessage } from '../mock';
 import { toast } from 'sonner';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
@@ -29,18 +30,20 @@ const NewsletterPopup = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/subscribe`, {
+      await fetch(`${API_URL}/api/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
-      if (res.ok) {
-        localStorage.setItem('bm_hospitality_subscribed', 'true');
-        toast.success('Thank you for subscribing! You will receive exclusive offers and travel updates.');
-        setIsOpen(false);
-      } else {
-        toast.error('Something went wrong. Please try again.');
-      }
+
+      let msg = `*New Community Subscription - BM Hospitality*\n\n`;
+      msg += `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\n`;
+      msg += `Interested In: New Offers, Travel Announcements, Travel Ideas & Tips`;
+      sendWhatsAppMessage(msg);
+
+      localStorage.setItem('bm_hospitality_subscribed', 'true');
+      toast.success('Thank you for subscribing! You will receive exclusive offers and travel updates.');
+      setIsOpen(false);
     } catch {
       toast.error('Failed to subscribe. Please try again later.');
     } finally {
@@ -109,7 +112,7 @@ const NewsletterPopup = () => {
                 placeholder="your@email.com" className="mt-1" required data-testid="newsletter-email-input" />
             </div>
             <div>
-              <Label htmlFor="popup-phone" className="text-base font-semibold">Phone Number *</Label>
+              <Label htmlFor="popup-phone" className="text-base font-semibold">Phone / WhatsApp *</Label>
               <Input id="popup-phone" name="phone" type="tel" value={formData.phone} onChange={handleInputChange}
                 placeholder="+91 98765 43210" className="mt-1" required data-testid="newsletter-phone-input" />
             </div>

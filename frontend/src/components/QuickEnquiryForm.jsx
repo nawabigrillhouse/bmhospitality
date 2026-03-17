@@ -5,6 +5,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Calendar, MapPin, Users, Phone, Mail, MessageSquare, Send } from 'lucide-react';
+import { sendWhatsAppMessage } from '../mock';
 import { toast } from 'sonner';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
@@ -25,33 +26,35 @@ const QuickEnquiryForm = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/inquiry`, {
+      await fetch(`${API_URL}/api/inquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          package_type: formData.packageType,
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          destination: formData.destination,
-          check_in_date: formData.checkInDate,
-          check_out_date: formData.checkOutDate,
-          number_of_adults: formData.numberOfAdults,
+          package_type: formData.packageType, name: formData.name,
+          email: formData.email, phone: formData.phone,
+          destination: formData.destination, check_in_date: formData.checkInDate,
+          check_out_date: formData.checkOutDate, number_of_adults: formData.numberOfAdults,
           number_of_children: formData.numberOfChildren,
-          budget: formData.budget || null,
-          requirements: formData.requirements || null
+          budget: formData.budget || null, requirements: formData.requirements || null
         })
       });
-      if (res.ok) {
-        toast.success('Inquiry sent successfully! We will contact you shortly with the best package options.');
-        setFormData({
-          packageType: '', name: '', email: '', phone: '', destination: '',
-          checkInDate: '', checkOutDate: '', numberOfAdults: '2',
-          numberOfChildren: '0', budget: '', requirements: ''
-        });
-      } else {
-        toast.error('Something went wrong. Please try again.');
-      }
+
+      const nights = Math.ceil((new Date(formData.checkOutDate) - new Date(formData.checkInDate)) / (1000 * 60 * 60 * 24));
+      let msg = `*Travel Package Inquiry - BM Hospitality*\n\n`;
+      msg += `Package: ${formData.packageType}\n\n`;
+      msg += `*Guest:*\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\n`;
+      msg += `*Travel:*\nDestination: ${formData.destination}\nCheck-in: ${formData.checkInDate}\nCheck-out: ${formData.checkOutDate}\n`;
+      msg += `Nights: ${nights}\nAdults: ${formData.numberOfAdults} | Children: ${formData.numberOfChildren}\n`;
+      if (formData.budget) msg += `Budget: ${formData.budget}\n`;
+      if (formData.requirements) msg += `\nRequirements:\n${formData.requirements}`;
+      sendWhatsAppMessage(msg);
+
+      toast.success('Inquiry sent! We will contact you shortly with the best package options.');
+      setFormData({
+        packageType: '', name: '', email: '', phone: '', destination: '',
+        checkInDate: '', checkOutDate: '', numberOfAdults: '2',
+        numberOfChildren: '0', budget: '', requirements: ''
+      });
     } catch {
       toast.error('Failed to submit. Please try again later.');
     } finally {
@@ -74,7 +77,7 @@ const QuickEnquiryForm = () => {
                 <MessageSquare className="w-6 h-6 mr-3" /> Get Your Custom Travel Package
               </CardTitle>
               <CardDescription className="text-teal-50 text-base">
-                Choose your package type, fill in details, and receive instant quotation
+                Choose your package type, fill in details, and receive instant quotation via email & WhatsApp
               </CardDescription>
             </CardHeader>
 
@@ -86,7 +89,7 @@ const QuickEnquiryForm = () => {
                   </Label>
                   <select id="packageType" name="packageType" value={formData.packageType}
                     onChange={handleInputChange}
-                    className="w-full mt-2 px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-base"
+                    className="w-full mt-2 px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 text-base"
                     required>
                     <option value="">-- Select Your Travel Package --</option>
                     <option value="Domestic Package (India)">Domestic Package (India)</option>
@@ -113,18 +116,15 @@ const QuickEnquiryForm = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <Label htmlFor="enquiry-phone" className="text-base font-semibold text-gray-700 flex items-center">
-                      <Phone className="w-4 h-4 mr-1 text-teal-600" /> Phone Number *
+                      <Phone className="w-4 h-4 mr-1 text-teal-600" /> Phone / WhatsApp *
                     </Label>
                     <Input id="enquiry-phone" name="phone" type="tel" value={formData.phone}
                       onChange={handleInputChange} placeholder="+91 98765 43210" className="mt-2 py-3 text-base" required />
                   </div>
                   <div>
-                    <Label htmlFor="enquiry-destination" className="text-base font-semibold text-gray-700">
-                      Destination / Location *
-                    </Label>
+                    <Label htmlFor="enquiry-destination" className="text-base font-semibold text-gray-700">Destination *</Label>
                     <Input id="enquiry-destination" name="destination" value={formData.destination}
-                      onChange={handleInputChange} placeholder="e.g., Kashmir, Dubai, Goa"
-                      className="mt-2 py-3 text-base" required />
+                      onChange={handleInputChange} placeholder="e.g., Kashmir, Dubai, Goa" className="mt-2 py-3 text-base" required />
                   </div>
                 </div>
 
@@ -153,41 +153,36 @@ const QuickEnquiryForm = () => {
                       <Users className="w-4 h-4 mr-1 text-teal-600" /> Adults *
                     </Label>
                     <Input id="enquiry-adults" name="numberOfAdults" type="number" min="1"
-                      value={formData.numberOfAdults} onChange={handleInputChange}
-                      className="mt-2 py-3 text-base" required />
+                      value={formData.numberOfAdults} onChange={handleInputChange} className="mt-2 py-3 text-base" required />
                   </div>
                   <div>
                     <Label htmlFor="enquiry-children" className="text-base font-semibold text-gray-700">Children</Label>
                     <Input id="enquiry-children" name="numberOfChildren" type="number" min="0"
-                      value={formData.numberOfChildren} onChange={handleInputChange}
-                      className="mt-2 py-3 text-base" />
+                      value={formData.numberOfChildren} onChange={handleInputChange} className="mt-2 py-3 text-base" />
                   </div>
                   <div>
                     <Label htmlFor="enquiry-budget" className="text-base font-semibold text-gray-700">Budget (Optional)</Label>
                     <Input id="enquiry-budget" name="budget" value={formData.budget}
-                      onChange={handleInputChange} placeholder="e.g., 50,000"
-                      className="mt-2 py-3 text-base" />
+                      onChange={handleInputChange} placeholder="e.g., 50,000" className="mt-2 py-3 text-base" />
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="enquiry-requirements" className="text-base font-semibold text-gray-700">
-                    Special Requirements / Preferences
-                  </Label>
+                  <Label htmlFor="enquiry-requirements" className="text-base font-semibold text-gray-700">Special Requirements</Label>
                   <Textarea id="enquiry-requirements" name="requirements" value={formData.requirements}
                     onChange={handleInputChange}
-                    placeholder="Tell us about your preferences, activities you'd like, dietary requirements, special occasions, etc."
+                    placeholder="Tell us about your preferences, activities, dietary requirements, special occasions, etc."
                     rows={4} className="mt-2 text-base" />
                 </div>
 
                 <div className="pt-4">
                   <Button type="submit" disabled={loading} data-testid="enquiry-submit-btn"
-                    className="w-full bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-700 hover:to-teal-600 text-white text-lg py-6 font-bold shadow-lg hover:shadow-xl transition-all duration-300">
+                    className="w-full bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-700 hover:to-teal-600 text-white text-lg py-6 font-bold shadow-lg">
                     <Send className="w-5 h-5 mr-2" />
-                    {loading ? 'Submitting...' : 'Send Travel Inquiry'}
+                    {loading ? 'Submitting...' : 'Send Inquiry via Email & WhatsApp'}
                   </Button>
                   <p className="text-center text-sm text-gray-500 mt-3">
-                    We'll get back to you with personalized package options
+                    We'll get back to you with personalized package options via email and WhatsApp
                   </p>
                 </div>
               </form>

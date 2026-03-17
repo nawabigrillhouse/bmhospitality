@@ -4,16 +4,16 @@
 export const domesticPackages = [
   {
     id: 1,
-    name: "Golden Triangle Tour",
-    destination: "Delhi, Agra, Jaipur",
-    duration: "5 Days / 4 Nights",
-    image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=800",
-    description: "Explore India's most iconic monuments including Taj Mahal, Amber Fort, and historic Delhi.",
+    name: "Goa Beach Getaway",
+    destination: "North & South Goa",
+    duration: "4 Days / 3 Nights",
+    image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800",
+    description: "Experience the best of Goa with pristine beaches, vibrant nightlife, and delicious seafood cuisine.",
     highlights: [
-      "Visit Taj Mahal & Agra Fort",
-      "Explore Jaipur's palaces",
-      "Delhi city tour",
-      "Professional guide",
+      "Beach resort accommodation",
+      "Water sports & activities",
+      "Spice plantation tour",
+      "Old Goa heritage walk",
       "All transfers included"
     ]
   },

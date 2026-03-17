@@ -5,9 +5,11 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
-import { Home, Users, Waves, IndianRupee, Check, Sparkles } from 'lucide-react';
+import { Home, Users, Waves, IndianRupee, Check, Sparkles, Send } from 'lucide-react';
 import { bohraStayOptions, bohraAmenities, bohraSpecialFeatures, bohraPackageIncludes, sendWhatsAppMessage } from '../mock';
 import { toast } from 'sonner';
+
+const API_URL = process.env.REACT_APP_BACKEND_URL;
 
 const BohraStay = () => {
   const [selectedStayType, setSelectedStayType] = useState(null);
@@ -38,40 +40,48 @@ const BohraStay = () => {
     setIsDialogOpen(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Prepare WhatsApp message
-    let message = `*Dawoodi Bohra Stay Inquiry - BM Hospitality*\n\n`;
-    message += `🏠 *Stay Type:* ${selectedStayType}\n`;
-    message += `🏘️ *Configuration:* ${selectedOption.bhk}\n`;
-    message += `👥 *Capacity:* ${selectedOption.capacity}\n`;
-    message += `💰 *Starting Price:* ₹${selectedOption.price}/night onwards\n`;
-    if (formData.selectedSubOption) {
-      message += `📋 *Selected Option:* ${formData.selectedSubOption}\n`;
+    try {
+      await fetch(`${API_URL}/api/inquiry`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          package_type: `Bohra Stay - ${selectedStayType} - ${selectedOption.bhk}`,
+          name: formData.name, email: formData.email, phone: formData.phone,
+          destination: 'Goa - Dawoodi Bohra Stay',
+          check_in_date: formData.checkInDate, check_out_date: formData.checkOutDate,
+          number_of_adults: formData.numberOfAdults,
+          number_of_children: formData.numberOfChildren,
+          budget: null, requirements: formData.message || null
+        })
+      });
+
+      // Prepare WhatsApp message
+      let message = `*Dawoodi Bohra Stay Inquiry - BM Hospitality*\n\n`;
+      message += `*Stay Type:* ${selectedStayType}\n`;
+      message += `*Configuration:* ${selectedOption.bhk}\n`;
+      message += `*Capacity:* ${selectedOption.capacity}\n`;
+      message += `*Starting Price:* ${selectedOption.price}/night onwards\n`;
+      if (formData.selectedSubOption) {
+        message += `*Selected Option:* ${formData.selectedSubOption}\n`;
+      }
+      message += `\n*Guest Details:*\n`;
+      message += `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\n`;
+      message += `*Booking:*\nCheck-in: ${formData.checkInDate}\nCheck-out: ${formData.checkOutDate}\n`;
+      message += `Adults: ${formData.numberOfAdults}\nChildren: ${formData.numberOfChildren}\n`;
+      if (formData.message) {
+        message += `\n*Special Requirements:*\n${formData.message}\n`;
+      }
+      message += `\n_Note: Rate valid for minimum 3 night stay_\n`;
+      message += `_Dawoodi Bohra Community - BM Hospitality_`;
+      sendWhatsAppMessage(message);
+    } catch {
+      // WhatsApp still opens even if API fails
     }
-    message += `\n*Guest Details:*\n`;
-    message += `👤 Name: ${formData.name}\n`;
-    message += `📧 Email: ${formData.email}\n`;
-    message += `📱 Phone: ${formData.phone}\n\n`;
-    message += `*Booking Information:*\n`;
-    message += `📅 Check-in: ${formData.checkInDate}\n`;
-    message += `📅 Check-out: ${formData.checkOutDate}\n`;
-    message += `👥 Adults: ${formData.numberOfAdults}\n`;
-    message += `👶 Children: ${formData.numberOfChildren}\n`;
     
-    if (formData.message) {
-      message += `\n💬 *Special Requirements:*\n${formData.message}\n`;
-    }
-    
-    message += `\n_Note: Rate valid for minimum 3 night stay_\n`;
-    message += `_Dawoodi Bohra Community - BM Hospitality_`;
-    
-    // Send to WhatsApp
-    sendWhatsAppMessage(message);
-    
-    // Show success toast
-    toast.success('Inquiry sent to WhatsApp! We will send you exact cost & accommodation details shortly.');
+    toast.success('Inquiry sent! We will send you exact cost & accommodation details via email and WhatsApp.');
     
     // Reset form and close dialog
     setFormData({
@@ -440,7 +450,7 @@ const BohraStay = () => {
               </div>
               
               <Button type="submit" className="w-full bg-teal-600 hover:bg-teal-700 text-white text-lg py-6 font-bold">
-                Send Inquiry via WhatsApp
+                Send Inquiry via Email & WhatsApp
               </Button>
             </form>
           </DialogContent>

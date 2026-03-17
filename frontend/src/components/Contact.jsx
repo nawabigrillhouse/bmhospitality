@@ -5,6 +5,7 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Button } from './ui/button';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import { sendWhatsAppMessage } from '../mock';
 import { toast } from 'sonner';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
@@ -23,17 +24,20 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/contact`, {
+      await fetch(`${API_URL}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
-      if (res.ok) {
-        toast.success('Thank you for contacting us! We will respond within 24 hours.');
-        setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-      } else {
-        toast.error('Something went wrong. Please try again.');
-      }
+
+      let msg = `*Contact Message - BM Hospitality*\n\n`;
+      msg += `Name: ${formData.name}\nEmail: ${formData.email}\n`;
+      if (formData.phone) msg += `Phone: ${formData.phone}\n`;
+      msg += `Subject: ${formData.subject}\n\nMessage:\n${formData.message}`;
+      sendWhatsAppMessage(msg);
+
+      toast.success('Thank you for contacting us! We will respond within 24 hours.');
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
     } catch {
       toast.error('Failed to send. Please try again later.');
     } finally {
@@ -57,28 +61,22 @@ const Contact = () => {
                   <div className="contact-icon"><MapPin className="w-6 h-6" /></div>
                   <div>
                     <h3 className="font-bold text-gray-800 mb-2">Visit Us</h3>
-                    <p className="text-gray-600 text-sm">
-                      104 Dattakrupa Apartment<br />Dattawadi, Mapusa<br />Goa, India
-                    </p>
+                    <p className="text-gray-600 text-sm">104 Dattakrupa Apartment<br />Dattawadi, Mapusa<br />Goa, India</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
-
             <Card className="contact-info-card">
               <CardContent className="pt-6">
                 <div className="flex items-start space-x-4">
                   <div className="contact-icon"><Phone className="w-6 h-6" /></div>
                   <div>
                     <h3 className="font-bold text-gray-800 mb-2">Call Us</h3>
-                    <p className="text-gray-600 text-sm">
-                      +91 9890765859<br />+91 8329416113 (WhatsApp)
-                    </p>
+                    <p className="text-gray-600 text-sm">+91 9890765859<br />+91 8329416113 (WhatsApp)</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
-
             <Card className="contact-info-card">
               <CardContent className="pt-6">
                 <div className="flex items-start space-x-4">
@@ -90,16 +88,13 @@ const Contact = () => {
                 </div>
               </CardContent>
             </Card>
-
             <Card className="contact-info-card">
               <CardContent className="pt-6">
                 <div className="flex items-start space-x-4">
                   <div className="contact-icon"><Clock className="w-6 h-6" /></div>
                   <div>
                     <h3 className="font-bold text-gray-800 mb-2">Business Hours</h3>
-                    <p className="text-gray-600 text-sm">
-                      Mon - Fri: 9:00 AM - 6:00 PM<br />Sat: 10:00 AM - 4:00 PM<br />Sun: Closed
-                    </p>
+                    <p className="text-gray-600 text-sm">Mon - Fri: 9:00 AM - 6:00 PM<br />Sat: 10:00 AM - 4:00 PM<br />Sun: Closed</p>
                   </div>
                 </div>
               </CardContent>
@@ -108,16 +103,14 @@ const Contact = () => {
 
           <div className="lg:col-span-2">
             <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl">Send Us a Message</CardTitle>
-              </CardHeader>
+              <CardHeader><CardTitle className="text-2xl">Send Us a Message</CardTitle></CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6" data-testid="contact-form">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="contact-name">Full Name *</Label>
-                      <Input id="contact-name" name="name" value={formData.name}
-                        onChange={handleInputChange} placeholder="John Doe" required data-testid="contact-name-input" />
+                      <Input id="contact-name" name="name" value={formData.name} onChange={handleInputChange}
+                        placeholder="John Doe" required data-testid="contact-name-input" />
                     </div>
                     <div>
                       <Label htmlFor="contact-email">Email *</Label>
@@ -125,10 +118,9 @@ const Contact = () => {
                         onChange={handleInputChange} placeholder="john@example.com" required data-testid="contact-email-input" />
                     </div>
                   </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="contact-phone">Phone Number</Label>
+                      <Label htmlFor="contact-phone">Phone / WhatsApp</Label>
                       <Input id="contact-phone" name="phone" type="tel" value={formData.phone}
                         onChange={handleInputChange} placeholder="+91 98765 43210" />
                     </div>
@@ -138,23 +130,20 @@ const Contact = () => {
                         onChange={handleInputChange} placeholder="How can we help?" required />
                     </div>
                   </div>
-
                   <div>
                     <Label htmlFor="contact-message">Message *</Label>
                     <Textarea id="contact-message" name="message" value={formData.message}
                       onChange={handleInputChange} placeholder="Tell us about your travel plans or questions..."
                       rows={6} required />
                   </div>
-
                   <Button type="submit" disabled={loading} data-testid="contact-submit-btn"
                     className="w-full bg-teal-600 hover:bg-teal-700 text-white py-6 text-lg font-semibold">
                     <Send className="w-5 h-5 mr-2" />
-                    {loading ? 'Sending...' : 'Send Message'}
+                    {loading ? 'Sending...' : 'Send via Email & WhatsApp'}
                   </Button>
                 </form>
               </CardContent>
             </Card>
-
             <div className="mt-8 rounded-lg overflow-hidden shadow-lg">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3843.8!2d73.8!3d15.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDM2JzAwLjAiTiA3M8KwNDgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin"

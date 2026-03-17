@@ -4,6 +4,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Plane, Calendar, Users, MapPin, Send } from 'lucide-react';
+import { sendWhatsAppMessage } from '../mock';
 import { toast } from 'sonner';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
@@ -11,56 +12,44 @@ const API_URL = process.env.REACT_APP_BACKEND_URL;
 const FlightInquiry = () => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    from: '',
-    to: '',
-    departureDate: '',
-    returnDate: '',
-    passengers: '1',
-    class: 'Economy',
-    tripType: 'Round Trip'
+    name: '', email: '', phone: '', from: '', to: '',
+    departureDate: '', returnDate: '', passengers: '1',
+    class: 'Economy', tripType: 'Round Trip'
   });
 
   const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/flight-inquiry`, {
+      await fetch(`${API_URL}/api/flight-inquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          from_city: formData.from,
-          to_city: formData.to,
+          name: formData.name, email: formData.email, phone: formData.phone,
+          from_city: formData.from, to_city: formData.to,
           departure_date: formData.departureDate,
           return_date: formData.tripType === 'Round Trip' ? formData.returnDate : null,
-          passengers: formData.passengers,
-          travel_class: formData.class,
+          passengers: formData.passengers, travel_class: formData.class,
           trip_type: formData.tripType
         })
       });
-      const data = await res.json();
-      if (res.ok) {
-        toast.success('Flight inquiry submitted! We will get back to you with the best flight options.');
-        setFormData({
-          name: '', email: '', phone: '', from: '', to: '',
-          departureDate: '', returnDate: '', passengers: '1',
-          class: 'Economy', tripType: 'Round Trip'
-        });
-      } else {
-        toast.error(data.detail || 'Something went wrong. Please try again.');
-      }
+
+      let msg = `*Flight Inquiry - BM Hospitality*\n\n`;
+      msg += `*Flight Details:*\n`;
+      msg += `From: ${formData.from}\nTo: ${formData.to}\n`;
+      msg += `Departure: ${formData.departureDate}\n`;
+      if (formData.tripType === 'Round Trip') msg += `Return: ${formData.returnDate}\n`;
+      msg += `Passengers: ${formData.passengers}\nClass: ${formData.class}\nTrip: ${formData.tripType}\n\n`;
+      msg += `*Contact:*\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}`;
+      sendWhatsAppMessage(msg);
+
+      toast.success('Flight inquiry submitted! We will get back to you with the best flight options.');
+      setFormData({ name: '', email: '', phone: '', from: '', to: '',
+        departureDate: '', returnDate: '', passengers: '1', class: 'Economy', tripType: 'Round Trip' });
     } catch {
       toast.error('Failed to submit. Please try again later.');
     } finally {
@@ -87,7 +76,6 @@ const FlightInquiry = () => {
           </CardHeader>
           <CardContent className="p-8">
             <form onSubmit={handleSubmit} className="space-y-6" data-testid="flight-inquiry-form">
-              {/* Trip Type */}
               <div>
                 <Label className="text-base font-semibold">Trip Type</Label>
                 <div className="flex gap-4 mt-2">
@@ -104,7 +92,6 @@ const FlightInquiry = () => {
                 </div>
               </div>
 
-              {/* From and To */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <Label htmlFor="from" className="text-base font-semibold flex items-center">
@@ -122,7 +109,6 @@ const FlightInquiry = () => {
                 </div>
               </div>
 
-              {/* Dates */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <Label htmlFor="departureDate" className="text-base font-semibold flex items-center">
@@ -145,7 +131,6 @@ const FlightInquiry = () => {
                 )}
               </div>
 
-              {/* Passengers and Class */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <Label htmlFor="passengers" className="text-base font-semibold flex items-center">
@@ -166,7 +151,6 @@ const FlightInquiry = () => {
                 </div>
               </div>
 
-              {/* Contact Details */}
               <div className="border-t pt-6">
                 <h3 className="text-lg font-bold mb-4">Contact Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -181,7 +165,7 @@ const FlightInquiry = () => {
                       onChange={handleInputChange} placeholder="your@email.com" required data-testid="flight-email-input" />
                   </div>
                   <div>
-                    <Label htmlFor="flight-phone">Phone *</Label>
+                    <Label htmlFor="flight-phone">Phone / WhatsApp *</Label>
                     <Input id="flight-phone" name="phone" type="tel" value={formData.phone}
                       onChange={handleInputChange} placeholder="+91 98765 43210" required data-testid="flight-phone-input" />
                   </div>
@@ -191,10 +175,10 @@ const FlightInquiry = () => {
               <Button type="submit" disabled={loading} data-testid="flight-submit-btn"
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg py-6 font-bold">
                 <Send className="w-5 h-5 mr-2" />
-                {loading ? 'Submitting...' : 'Get Flight Quote'}
+                {loading ? 'Submitting...' : 'Get Flight Quote via Email & WhatsApp'}
               </Button>
               <p className="text-center text-sm text-gray-500 mt-2">
-                Our team will find the best flight options and contact you with personalized quotes
+                Our team will find the best flight options and contact you via email and WhatsApp
               </p>
             </form>
           </CardContent>
