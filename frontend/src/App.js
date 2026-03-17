@@ -1,4 +1,5 @@
 import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "./components/ui/sonner";
 import NewsletterPopup from "./components/NewsletterPopup";
 import Header from "./components/Header";
@@ -17,10 +18,11 @@ import Testimonials from "./components/Testimonials";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import WhatsAppFloat from "./components/WhatsAppFloat";
+import AdminPage from "./pages/admin/AdminPage";
 
-function App() {
+function MainSite() {
   return (
-    <div className="App">
+    <>
       <NewsletterPopup />
       <Header />
       <main>
@@ -41,7 +43,18 @@ function App() {
       <Footer />
       <WhatsAppFloat />
       <Toaster position="top-right" />
-    </div>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/*" element={<MainSite />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
