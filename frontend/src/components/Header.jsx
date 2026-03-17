@@ -3,7 +3,7 @@ import { Menu, X, Search } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
-const INSTAGRAM_URL = 'https://www.instagram.com/bm_hospitality?igsh=MTZ4Z280NnVvbmVlYw%3D%3D&utm_source=qr';
+const INSTAGRAM_URL = 'https://www.instagram.com/bm_hospitality/';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);

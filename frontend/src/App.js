@@ -16,6 +16,7 @@ import Gallery from "./components/Gallery";
 import Testimonials from "./components/Testimonials";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import WhatsAppFloat from "./components/WhatsAppFloat";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Contact />
       </main>
       <Footer />
+      <WhatsAppFloat />
       <Toaster position="top-right" />
     </div>
   );
