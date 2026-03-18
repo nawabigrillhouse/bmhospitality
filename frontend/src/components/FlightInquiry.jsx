@@ -25,7 +25,18 @@ const FlightInquiry = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await fetch(`${API_URL}/api/flight-inquiry`, {
+      // Send WhatsApp FIRST (before async fetch for mobile compatibility)
+      let msg = `*Flight Inquiry - BM Hospitality*\n\n`;
+      msg += `*Flight Details:*\n`;
+      msg += `From: ${formData.from}\nTo: ${formData.to}\n`;
+      msg += `Departure: ${formData.departureDate}\n`;
+      if (formData.tripType === 'Round Trip') msg += `Return: ${formData.returnDate}\n`;
+      msg += `Passengers: ${formData.passengers}\nClass: ${formData.class}\nTrip: ${formData.tripType}\n\n`;
+      msg += `*Contact:*\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}`;
+      sendWhatsAppMessage(msg);
+
+      // Save to DB in background
+      fetch(`${API_URL}/api/flight-inquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -37,15 +48,6 @@ const FlightInquiry = () => {
           trip_type: formData.tripType
         })
       });
-
-      let msg = `*Flight Inquiry - BM Hospitality*\n\n`;
-      msg += `*Flight Details:*\n`;
-      msg += `From: ${formData.from}\nTo: ${formData.to}\n`;
-      msg += `Departure: ${formData.departureDate}\n`;
-      if (formData.tripType === 'Round Trip') msg += `Return: ${formData.returnDate}\n`;
-      msg += `Passengers: ${formData.passengers}\nClass: ${formData.class}\nTrip: ${formData.tripType}\n\n`;
-      msg += `*Contact:*\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}`;
-      sendWhatsAppMessage(msg);
 
       toast.success('Flight inquiry submitted! We will get back to you with the best flight options.');
       setFormData({ name: '', email: '', phone: '', from: '', to: '',

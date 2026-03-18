@@ -45,7 +45,19 @@ const Packages = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await fetch(`${API_URL}/api/inquiry`, {
+      // Build and send WhatsApp message FIRST (before async fetch for mobile compatibility)
+      let msg = `*${packageType} Package Inquiry - BM Hospitality*\n\n`;
+      msg += `Package: ${selectedPackage?.name || selectedPackage?.location}\n`;
+      msg += `Destination: ${selectedPackage?.destination || selectedPackage?.location}\n\n`;
+      msg += `*Guest:*\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\n`;
+      msg += `*Travel:*\nDate: ${formData.travelDate}\nAdults: ${formData.numberOfAdults}\nChildren: ${formData.numberOfChildren}\n`;
+      if (formData.duration) msg += `Duration: ${formData.duration}\n`;
+      if (formData.destination) msg += `Preferred: ${formData.destination}\n`;
+      if (formData.message) msg += `\nRequirements:\n${formData.message}`;
+      sendWhatsAppMessage(msg);
+
+      // Save to DB in background
+      fetch(`${API_URL}/api/inquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -58,16 +70,6 @@ const Packages = () => {
           budget: null, requirements: formData.message || null
         })
       });
-
-      let msg = `*${packageType} Package Inquiry - BM Hospitality*\n\n`;
-      msg += `Package: ${selectedPackage?.name || selectedPackage?.location}\n`;
-      msg += `Destination: ${selectedPackage?.destination || selectedPackage?.location}\n\n`;
-      msg += `*Guest:*\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\n`;
-      msg += `*Travel:*\nDate: ${formData.travelDate}\nAdults: ${formData.numberOfAdults}\nChildren: ${formData.numberOfChildren}\n`;
-      if (formData.duration) msg += `Duration: ${formData.duration}\n`;
-      if (formData.destination) msg += `Preferred: ${formData.destination}\n`;
-      if (formData.message) msg += `\nRequirements:\n${formData.message}`;
-      sendWhatsAppMessage(msg);
 
       toast.success('Request sent! We will send you a quotation via email and WhatsApp shortly.');
       setFormData({ name: '', email: '', phone: '', travelDate: '',

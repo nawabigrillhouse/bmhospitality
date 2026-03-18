@@ -617,9 +617,16 @@ export const services = [
 // WhatsApp Configuration
 export const WHATSAPP_NUMBER = "+918329416113";
 
-// Helper function to send WhatsApp message
+// Helper function to send WhatsApp message (mobile-friendly)
 export const sendWhatsAppMessage = (message) => {
   const encodedMessage = encodeURIComponent(message);
   const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER.replace(/[^0-9]/g, '')}?text=${encodedMessage}`;
-  window.open(whatsappURL, '_blank');
+  // Use anchor element click for reliable mobile behavior (popup blockers block window.open)
+  const a = document.createElement('a');
+  a.href = whatsappURL;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 };

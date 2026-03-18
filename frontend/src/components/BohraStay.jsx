@@ -93,21 +93,7 @@ const BohraStay = () => {
     e.preventDefault();
     
     try {
-      await fetch(`${API_URL}/api/inquiry`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          package_type: `Bohra Stay - ${selectedStayType} - ${selectedOption.bhk}`,
-          name: formData.name, email: formData.email, phone: formData.phone,
-          destination: 'Goa - Dawoodi Bohra Stay',
-          check_in_date: formData.checkInDate, check_out_date: formData.checkOutDate,
-          number_of_adults: formData.numberOfAdults,
-          number_of_children: formData.numberOfChildren,
-          budget: null, requirements: formData.message || null
-        })
-      });
-
-      // Prepare WhatsApp message
+      // Build WhatsApp message FIRST and open it (must be before async fetch for mobile)
       let message = `*Dawoodi Bohra Stay Inquiry - BM Hospitality*\n\n`;
       message += `*Stay Type:* ${selectedStayType}\n`;
       message += `*Configuration:* ${selectedOption.bhk}\n`;
@@ -125,6 +111,21 @@ const BohraStay = () => {
       message += `\n_Fill the form & submit to know your package rate_\n`;
       message += `_Dawoodi Bohra Community - BM Hospitality_`;
       sendWhatsAppMessage(message);
+
+      // Save to DB in background
+      fetch(`${API_URL}/api/inquiry`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          package_type: `Bohra Stay - ${selectedStayType} - ${selectedOption.bhk}`,
+          name: formData.name, email: formData.email, phone: formData.phone,
+          destination: 'Goa - Dawoodi Bohra Stay',
+          check_in_date: formData.checkInDate, check_out_date: formData.checkOutDate,
+          number_of_adults: formData.numberOfAdults,
+          number_of_children: formData.numberOfChildren,
+          budget: null, requirements: formData.message || null
+        })
+      });
     } catch {
       // WhatsApp still opens even if API fails
     }

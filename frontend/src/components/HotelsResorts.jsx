@@ -24,7 +24,19 @@ const HotelsResorts = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await fetch(`${API_URL}/api/hotel-inquiry`, {
+      const nights = Math.ceil((new Date(formData.checkOutDate) - new Date(formData.checkInDate)) / (1000 * 60 * 60 * 24));
+      // Send WhatsApp FIRST (before async fetch for mobile compatibility)
+      let msg = `*Hotel/Resort Inquiry - BM Hospitality*\n\n`;
+      msg += `*Booking Details:*\n`;
+      msg += `Destination: ${formData.destination}\nCheck-in: ${formData.checkInDate}\nCheck-out: ${formData.checkOutDate}\n`;
+      msg += `Nights: ${nights}\nAdults: ${formData.adults}\nChildren: ${formData.children}\n`;
+      if (formData.children !== '0' && formData.childAges) msg += `Children Ages: ${formData.childAges}\n`;
+      msg += `Meal Plan: ${formData.mealPlan}\n\n`;
+      msg += `*Contact:*\nEmail: ${formData.email}\nWhatsApp: ${formData.whatsapp}`;
+      sendWhatsAppMessage(msg);
+
+      // Save to DB in background
+      fetch(`${API_URL}/api/hotel-inquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -34,16 +46,6 @@ const HotelsResorts = () => {
           meal_plan: formData.mealPlan, email: formData.email, whatsapp: formData.whatsapp
         })
       });
-
-      const nights = Math.ceil((new Date(formData.checkOutDate) - new Date(formData.checkInDate)) / (1000 * 60 * 60 * 24));
-      let msg = `*Hotel/Resort Inquiry - BM Hospitality*\n\n`;
-      msg += `*Booking Details:*\n`;
-      msg += `Destination: ${formData.destination}\nCheck-in: ${formData.checkInDate}\nCheck-out: ${formData.checkOutDate}\n`;
-      msg += `Nights: ${nights}\nAdults: ${formData.adults}\nChildren: ${formData.children}\n`;
-      if (formData.children !== '0' && formData.childAges) msg += `Children Ages: ${formData.childAges}\n`;
-      msg += `Meal Plan: ${formData.mealPlan}\n\n`;
-      msg += `*Contact:*\nEmail: ${formData.email}\nWhatsApp: ${formData.whatsapp}`;
-      sendWhatsAppMessage(msg);
 
       toast.success('Hotel inquiry submitted! We will send you the best options on your email and WhatsApp.');
       setFormData({ destination: '', checkInDate: '', checkOutDate: '', adults: '2',

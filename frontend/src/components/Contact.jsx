@@ -24,17 +24,19 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await fetch(`${API_URL}/api/contact`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-
+      // Send WhatsApp FIRST (before async fetch for mobile compatibility)
       let msg = `*Contact Message - BM Hospitality*\n\n`;
       msg += `Name: ${formData.name}\nEmail: ${formData.email}\n`;
       if (formData.phone) msg += `Phone: ${formData.phone}\n`;
       msg += `Subject: ${formData.subject}\n\nMessage:\n${formData.message}`;
       sendWhatsAppMessage(msg);
+
+      // Save to DB in background
+      fetch(`${API_URL}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
 
       toast.success('Thank you for contacting us! We will respond within 24 hours.');
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
