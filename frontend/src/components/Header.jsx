@@ -49,18 +49,18 @@ const Header = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => scrollToSection('hero')} data-testid="header-logo">
+          <div className="flex items-center space-x-2 sm:space-x-3 cursor-pointer min-w-0" onClick={() => scrollToSection('hero')} data-testid="header-logo">
             <img 
               src="https://customer-assets.emergentagent.com/job_fd3d940b-7582-4e9f-b21a-1ecd66b946d2/artifacts/vk8iwsdm_bm_hospitality_logo.png" 
               alt="BM Hospitality" 
-              className="h-20 w-20 object-cover rounded-full border border-gray-100"
+              className="h-12 w-12 sm:h-20 sm:w-20 object-cover rounded-full border border-gray-100 flex-shrink-0"
               style={{ 
                 filter: 'drop-shadow(4px 6px 6px rgba(80, 80, 80, 0.6)) drop-shadow(2px 3px 2px rgba(60, 60, 60, 0.4))'
               }}
             />
-            <div className="hidden sm:block">
-              <h1 className="text-xl font-bold text-teal-700">BM Hospitality</h1>
-              <p className="text-xs text-gray-600">Handcrafted Travel, Just for You.</p>
+            <div className="min-w-0">
+              <h1 className="text-sm sm:text-xl font-bold text-teal-700 truncate">BM Hospitality</h1>
+              <p className="text-[10px] sm:text-xs text-gray-600 truncate">Handcrafted Travel, Just for You.</p>
             </div>
           </div>
 
