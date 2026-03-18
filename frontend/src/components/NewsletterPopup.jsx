@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogContent } from './ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from './ui/dialog';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Button } from './ui/button';
@@ -59,6 +59,7 @@ const NewsletterPopup = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto p-0 overflow-hidden" data-testid="newsletter-popup">
+        <DialogTitle className="sr-only">Join Our Travel Community</DialogTitle>
         <button onClick={handleClose}
           className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/80 hover:bg-white shadow-md transition-colors"
           data-testid="newsletter-close-btn">

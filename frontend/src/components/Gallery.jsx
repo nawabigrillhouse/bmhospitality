@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { galleryImages } from '../mock';
-import { Dialog, DialogContent } from './ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from './ui/dialog';
 import { X } from 'lucide-react';
 import { useAdminImages } from '../hooks/useAdminImages';
 
@@ -47,6 +47,7 @@ const Gallery = () => {
         {/* Lightbox Dialog */}
         <Dialog open={selectedImage !== null} onOpenChange={() => setSelectedImage(null)}>
           <DialogContent className="max-w-4xl p-0 bg-transparent border-0">
+            <DialogTitle className="sr-only">Gallery Image</DialogTitle>
             <div className="relative">
               <button 
                 onClick={() => setSelectedImage(null)}
