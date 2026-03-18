@@ -1,9 +1,12 @@
 import React from 'react';
 import { Card, CardContent } from './ui/card';
 import { Star } from 'lucide-react';
-import { testimonials } from '../mock';
+import { testimonials as defaultTestimonials } from '../mock';
+import { useContent } from '../hooks/useContent';
 
 const Testimonials = () => {
+  const { items: testimonials } = useContent('testimonials', defaultTestimonials);
+
   return (
     <section id="testimonials" className="py-20 bg-gradient-to-b from-teal-50/30 to-white">
       <div className="container mx-auto px-4">

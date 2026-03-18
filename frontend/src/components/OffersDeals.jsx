@@ -3,65 +3,68 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from './ui/button';
 import { Gift, Clock, Tag, Percent } from 'lucide-react';
 import { useAdminImages, getAdminImage } from '../hooks/useAdminImages';
+import { useContent } from '../hooks/useContent';
+
+const defaultOffers = [
+  {
+    id: 1,
+    title: "Early Bird Discount",
+    description: "Book 45 days in advance and save 10% as special guest discount on all travel packages",
+    discount: "10% OFF",
+    validTill: "Ongoing",
+    image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800",
+    category: "All Packages"
+  },
+  {
+    id: 2,
+    title: "Goa Summer Special",
+    description: "Exclusive deals on Goa hotels and resorts for summer season",
+    discount: "5,000 OFF",
+    validTill: "April 30, 2025",
+    image: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800",
+    category: "Goa Packages"
+  },
+  {
+    id: 3,
+    title: "Honeymoon Package Offer",
+    description: "Special honeymoon packages with complimentary romantic dinner",
+    discount: "Free Upgrades",
+    validTill: "Ongoing",
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+    category: "International"
+  },
+  {
+    id: 4,
+    title: "Family Fun Deal",
+    description: "Book for 4+ members and get special family discounts",
+    discount: "20% OFF",
+    validTill: "May 15, 2025",
+    image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800",
+    category: "Domestic"
+  },
+  {
+    id: 5,
+    title: "Bohra Community Special",
+    description: "Exclusive rates for Dawoodi Bohra community stays in Goa",
+    discount: "3,000 OFF",
+    validTill: "June 30, 2025",
+    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800",
+    category: "Bohra Stays"
+  },
+  {
+    id: 6,
+    title: "Last Minute Deals",
+    description: "Book within 7 days of travel and get instant discounts",
+    discount: "15% OFF",
+    validTill: "Ongoing",
+    image: "https://images.unsplash.com/photo-1587595431973-160d0d94add1?w=800",
+    category: "All Packages"
+  }
+];
 
 const OffersDeals = () => {
   const { images: offerImages } = useAdminImages('offers');
-  const offers = [
-    {
-      id: 1,
-      title: "Early Bird Discount",
-      description: "Book 45 days in advance and save 10% as special guest discount on all travel packages",
-      discount: "10% OFF",
-      validTill: "Ongoing",
-      image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800",
-      category: "All Packages"
-    },
-    {
-      id: 2,
-      title: "Goa Summer Special",
-      description: "Exclusive deals on Goa hotels and resorts for summer season",
-      discount: "5,000 OFF",
-      validTill: "April 30, 2025",
-      image: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800",
-      category: "Goa Packages"
-    },
-    {
-      id: 3,
-      title: "Honeymoon Package Offer",
-      description: "Special honeymoon packages with complimentary romantic dinner",
-      discount: "Free Upgrades",
-      validTill: "Ongoing",
-      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
-      category: "International"
-    },
-    {
-      id: 4,
-      title: "Family Fun Deal",
-      description: "Book for 4+ members and get special family discounts",
-      discount: "20% OFF",
-      validTill: "May 15, 2025",
-      image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800",
-      category: "Domestic"
-    },
-    {
-      id: 5,
-      title: "Bohra Community Special",
-      description: "Exclusive rates for Dawoodi Bohra community stays in Goa",
-      discount: "3,000 OFF",
-      validTill: "June 30, 2025",
-      image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800",
-      category: "Bohra Stays"
-    },
-    {
-      id: 6,
-      title: "Last Minute Deals",
-      description: "Book within 7 days of travel and get instant discounts",
-      discount: "15% OFF",
-      validTill: "Ongoing",
-      image: "https://images.unsplash.com/photo-1587595431973-160d0d94add1?w=800",
-      category: "All Packages"
-    }
-  ];
+  const { items: offers } = useContent('offers', defaultOffers);
 
   const scrollToEnquiry = () => {
     const element = document.getElementById('quick-enquiry');

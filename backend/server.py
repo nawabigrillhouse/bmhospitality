@@ -85,11 +85,14 @@ class QuickInquiryRequest(BaseModel):
 class AdminLoginRequest(BaseModel):
     password: str
 
-class ContentUpdateRequest(BaseModel):
+class ContentItem(BaseModel):
     section: str
-    item_id: str
-    field: str
-    value: str
+    data: dict
+    sort_order: int = 0
+
+class ContentUpdateRequest(BaseModel):
+    data: dict = None
+    sort_order: int = None
 
 
 # --- Helper ---
@@ -278,6 +281,7 @@ async def get_stats(authorization: str = Header(None)):
     total_inquiries = await db.inquiries.count_documents({})
     total_subs = await db.subscriptions.count_documents({})
     total_images = await db.files.count_documents({"is_deleted": {"$ne": True}})
+    total_content = await db.content.count_documents({"is_deleted": {"$ne": True}})
     flight_inq = await db.inquiries.count_documents({"type": "flight"})
     hotel_inq = await db.inquiries.count_documents({"type": "hotel"})
     contact_inq = await db.inquiries.count_documents({"type": "contact"})
@@ -286,6 +290,7 @@ async def get_stats(authorization: str = Header(None)):
         "total_inquiries": total_inquiries,
         "total_subscriptions": total_subs,
         "total_images": total_images,
+        "total_content": total_content,
         "by_type": {
             "flight": flight_inq,
             "hotel": hotel_inq,
@@ -293,6 +298,61 @@ async def get_stats(authorization: str = Header(None)):
             "package": package_inq
         }
     }
+
+# --- Admin: Content CRUD ---
+@api_router.get("/admin/content")
+async def admin_get_content(section: str = Query(None), authorization: str = Header(None)):
+    verify_admin(authorization)
+    query = {"is_deleted": {"$ne": True}}
+    if section:
+        query["section"] = section
+    items = await db.content.find(query, {"_id": 0}).sort("sort_order", 1).to_list(500)
+    return {"items": items}
+
+@api_router.post("/admin/content")
+async def admin_create_content(item: ContentItem, authorization: str = Header(None)):
+    verify_admin(authorization)
+    doc = {
+        "id": str(uuid.uuid4()),
+        "section": item.section,
+        "data": item.data,
+        "sort_order": item.sort_order,
+        "is_deleted": False,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(timezone.utc).isoformat()
+    }
+    await db.content.insert_one(doc)
+    doc.pop("_id", None)
+    return {"status": "success", "item": doc}
+
+@api_router.put("/admin/content/{item_id}")
+async def admin_update_content(item_id: str, update: ContentUpdateRequest, authorization: str = Header(None)):
+    verify_admin(authorization)
+    set_fields = {"updated_at": datetime.now(timezone.utc).isoformat()}
+    if update.data is not None:
+        set_fields["data"] = update.data
+    if update.sort_order is not None:
+        set_fields["sort_order"] = update.sort_order
+    result = await db.content.update_one({"id": item_id, "is_deleted": {"$ne": True}}, {"$set": set_fields})
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Content item not found")
+    return {"status": "success", "message": "Content updated"}
+
+@api_router.delete("/admin/content/{item_id}")
+async def admin_delete_content(item_id: str, authorization: str = Header(None)):
+    verify_admin(authorization)
+    result = await db.content.update_one({"id": item_id}, {"$set": {"is_deleted": True}})
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Content item not found")
+    return {"status": "success", "message": "Content deleted"}
+
+@api_router.post("/admin/content/seed/{section}")
+async def admin_seed_content(section: str, authorization: str = Header(None)):
+    verify_admin(authorization)
+    existing = await db.content.count_documents({"section": section, "is_deleted": {"$ne": True}})
+    if existing > 0:
+        return {"status": "skipped", "message": f"Section '{section}' already has {existing} items"}
+    return {"status": "success", "message": "Use the admin panel to add content items"}
 
 
 # --- App Setup ---

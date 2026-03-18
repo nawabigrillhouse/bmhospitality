@@ -9,6 +9,7 @@ import { Textarea } from './ui/textarea';
 import { Clock, MapPin, Check, IndianRupee, Send } from 'lucide-react';
 import { domesticPackages, internationalPackages, goaPackages, sendWhatsAppMessage } from '../mock';
 import { useAdminImages, getAdminImage } from '../hooks/useAdminImages';
+import { useContent } from '../hooks/useContent';
 import { toast } from 'sonner';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
@@ -26,6 +27,10 @@ const Packages = () => {
   const { images: domesticImages } = useAdminImages('domestic-packages');
   const { images: intlImages } = useAdminImages('international-packages');
   const { images: goaImages } = useAdminImages('goa-hotels');
+
+  const { items: domesticItems } = useContent('domestic-packages', domesticPackages);
+  const { items: intlItems } = useContent('international-packages', internationalPackages);
+  const { items: goaItems } = useContent('goa-packages', goaPackages);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -213,17 +218,17 @@ const Packages = () => {
           </TabsList>
           <TabsContent value="domestic">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {domesticPackages.map((pkg) => <PackageCard key={pkg.id} pkg={pkg} type="Domestic" />)}
+              {domesticItems.map((pkg, idx) => <PackageCard key={pkg.id || idx} pkg={pkg} type="Domestic" />)}
             </div>
           </TabsContent>
           <TabsContent value="international">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {internationalPackages.map((pkg) => <PackageCard key={pkg.id} pkg={pkg} type="International" />)}
+              {intlItems.map((pkg, idx) => <PackageCard key={pkg.id || idx} pkg={pkg} type="International" />)}
             </div>
           </TabsContent>
           <TabsContent value="goa">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {goaPackages.map((pkg) => <PackageCard key={pkg.id} pkg={pkg} type="Goa Hotel/Resort" />)}
+              {goaItems.map((pkg, idx) => <PackageCard key={pkg.id || idx} pkg={pkg} type="Goa Hotel/Resort" />)}
             </div>
           </TabsContent>
         </Tabs>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
-import { LayoutDashboard, Image, MessageSquare, Users, LogOut, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, Image, MessageSquare, Users, LogOut, ChevronRight, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 import AdminImages from './AdminImages';
 import AdminInquiries from './AdminInquiries';
+import AdminContent from './AdminContent';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -37,6 +38,7 @@ const AdminDashboard = ({ token, onLogout }) => {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'images', label: 'Image Manager', icon: Image },
+    { id: 'content', label: 'Content Manager', icon: FileText },
     { id: 'inquiries', label: 'Inquiries', icon: MessageSquare },
     { id: 'subscriptions', label: 'Subscriptions', icon: Users },
   ];
@@ -75,7 +77,7 @@ const AdminDashboard = ({ token, onLogout }) => {
           <div>
             <h2 className="text-2xl font-bold mb-6 text-gray-800">Dashboard Overview</h2>
             {stats && (
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
                 <Card className="bg-blue-50 border-blue-200">
                   <CardContent className="pt-6">
                     <p className="text-sm text-blue-600 font-semibold">Total Inquiries</p>
@@ -100,6 +102,12 @@ const AdminDashboard = ({ token, onLogout }) => {
                     <p className="text-4xl font-bold text-amber-700 mt-2">{stats.by_type?.flight || 0}</p>
                   </CardContent>
                 </Card>
+                <Card className="bg-teal-50 border-teal-200">
+                  <CardContent className="pt-6">
+                    <p className="text-sm text-teal-600 font-semibold">Content Items</p>
+                    <p className="text-4xl font-bold text-teal-700 mt-2">{stats.total_content || 0}</p>
+                  </CardContent>
+                </Card>
               </div>
             )}
             {stats && (
@@ -120,6 +128,9 @@ const AdminDashboard = ({ token, onLogout }) => {
                   <CardContent className="space-y-3">
                     <Button onClick={() => setActiveTab('images')} className="w-full bg-teal-600 hover:bg-teal-700 text-white">
                       <Image className="w-4 h-4 mr-2" /> Manage Images
+                    </Button>
+                    <Button onClick={() => setActiveTab('content')} className="w-full bg-orange-600 hover:bg-orange-700 text-white">
+                      <FileText className="w-4 h-4 mr-2" /> Manage Content
                     </Button>
                     <Button onClick={() => setActiveTab('inquiries')} className="w-full bg-blue-600 hover:bg-blue-700 text-white">
                       <MessageSquare className="w-4 h-4 mr-2" /> View Inquiries
@@ -146,6 +157,7 @@ const AdminDashboard = ({ token, onLogout }) => {
         )}
 
         {activeTab === 'images' && <AdminImages token={token} onLogout={onLogout} />}
+        {activeTab === 'content' && <AdminContent token={token} onLogout={onLogout} />}
         {activeTab === 'inquiries' && <AdminInquiries token={token} onLogout={onLogout} type="inquiries" />}
         {activeTab === 'subscriptions' && <AdminInquiries token={token} onLogout={onLogout} type="subscriptions" />}
       </main>
