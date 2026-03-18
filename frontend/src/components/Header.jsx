@@ -51,10 +51,9 @@ const Header = () => {
           {/* Logo */}
           <div className="flex items-center space-x-3 cursor-pointer" onClick={() => scrollToSection('hero')} data-testid="header-logo">
             <img 
-              src="https://customer-assets.emergentagent.com/job_bm-getaway/artifacts/54xolseq_bm_hospitality_logo.png" 
+              src="https://customer-assets.emergentagent.com/job_fd3d940b-7582-4e9f-b21a-1ecd66b946d2/artifacts/vk8iwsdm_bm_hospitality_logo.png" 
               alt="BM Hospitality" 
-              className="h-12 w-12 object-contain"
-              style={{ background: 'transparent', mixBlendMode: 'multiply' }}
+              className="h-14 w-14 object-cover rounded-full"
             />
             <div className="hidden sm:block">
               <h1 className="text-xl font-bold text-teal-700">BM Hospitality</h1>
