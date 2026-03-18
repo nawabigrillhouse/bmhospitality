@@ -172,6 +172,14 @@ async def quick_inquiry(data: QuickInquiryRequest):
     return {"status": "success", "message": "Inquiry received. We will contact you shortly with the best options."}
 
 
+@api_router.get("/images/{section}")
+async def get_public_images(section: str):
+    items = await db.files.find(
+        {"section": section, "is_deleted": {"$ne": True}},
+        {"_id": 0}
+    ).sort("created_at", 1).to_list(100)
+    return {"images": items}
+
 # --- Public: Get content images ---
 @api_router.get("/content/{section}")
 async def get_section_content(section: str):

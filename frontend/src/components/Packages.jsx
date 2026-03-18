@@ -8,6 +8,7 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Clock, MapPin, Check, IndianRupee, Send } from 'lucide-react';
 import { domesticPackages, internationalPackages, goaPackages, sendWhatsAppMessage } from '../mock';
+import { useAdminImages, getAdminImage } from '../hooks/useAdminImages';
 import { toast } from 'sonner';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
@@ -21,6 +22,10 @@ const Packages = () => {
     numberOfAdults: '2', numberOfChildren: '0',
     duration: '', destination: '', message: ''
   });
+
+  const { images: domesticImages } = useAdminImages('domestic-packages');
+  const { images: intlImages } = useAdminImages('international-packages');
+  const { images: goaImages } = useAdminImages('goa-hotels');
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -69,10 +74,13 @@ const Packages = () => {
     }
   };
 
-  const PackageCard = ({ pkg, type }) => (
+  const PackageCard = ({ pkg, type }) => {
+    const sectionImages = type === 'Domestic' ? domesticImages : type === 'International' ? intlImages : goaImages;
+    const cardImage = getAdminImage(sectionImages, String(pkg.id), pkg.image);
+    return (
     <Card className="package-card group">
       <div className="relative overflow-hidden rounded-t-lg h-64">
-        <img src={pkg.image} alt={pkg.name}
+        <img src={cardImage} alt={pkg.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
       </div>
       <CardHeader>
@@ -186,7 +194,8 @@ const Packages = () => {
         </Dialog>
       </CardFooter>
     </Card>
-  );
+    );
+  };
 
   return (
     <section id="packages" className="py-20 bg-white">

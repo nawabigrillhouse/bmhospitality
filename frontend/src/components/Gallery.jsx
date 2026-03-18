@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import { galleryImages } from '../mock';
 import { Dialog, DialogContent } from './ui/dialog';
 import { X } from 'lucide-react';
+import { useAdminImages } from '../hooks/useAdminImages';
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const { images: adminGallery } = useAdminImages('gallery');
+
+  const displayImages = adminGallery.length > 0
+    ? adminGallery.map((img, i) => ({ id: img.id || i, url: img.url, title: img.label || 'Gallery', location: '' }))
+    : galleryImages;
 
   return (
     <section id="gallery" className="py-20 bg-white">
@@ -17,7 +23,7 @@ const Gallery = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {galleryImages.map((image) => (
+          {displayImages.map((image) => (
             <div 
               key={image.id}
               className="gallery-item group cursor-pointer"

@@ -2,8 +2,10 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Gift, Clock, Tag, Percent } from 'lucide-react';
+import { useAdminImages, getAdminImage } from '../hooks/useAdminImages';
 
 const OffersDeals = () => {
+  const { images: offerImages } = useAdminImages('offers');
   const offers = [
     {
       id: 1,
@@ -85,7 +87,7 @@ const OffersDeals = () => {
           {offers.map((offer) => (
             <Card key={offer.id} className="overflow-hidden hover:shadow-2xl transition-all duration-300 group border-green-100" data-testid={`offer-card-${offer.id}`}>
               <div className="relative h-48 overflow-hidden">
-                <img src={offer.image} alt={offer.title}
+                <img src={getAdminImage(offerImages, String(offer.id), offer.image)} alt={offer.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 <div className="absolute top-4 right-4 px-4 py-2 rounded-full font-bold text-sm shadow-lg flex items-center text-white"
                   style={{ backgroundColor: '#6b7c3e' }}>

@@ -7,6 +7,7 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Home, Users, Waves, Check, Sparkles, Send } from 'lucide-react';
 import { bohraStayOptions, bohraAmenities, bohraSpecialFeatures, bohraPackageIncludes, sendWhatsAppMessage } from '../mock';
+import { useAdminImages, getAdminImage } from '../hooks/useAdminImages';
 import { toast } from 'sonner';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
@@ -15,6 +16,7 @@ const BohraStay = () => {
   const [selectedStayType, setSelectedStayType] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { images: bohraImages } = useAdminImages('bohra-stays');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -121,7 +123,7 @@ const BohraStay = () => {
           <Card key={index} className="hover:shadow-2xl transition-all duration-300 cursor-pointer group border-2 hover:border-teal-500">
             <div className="relative overflow-hidden rounded-t-lg h-56">
               <img 
-                src={option.image}
+                src={getAdminImage(bohraImages, `${selectedStayType}-${option.bhk}`, option.image)}
                 alt={option.bhk}
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />

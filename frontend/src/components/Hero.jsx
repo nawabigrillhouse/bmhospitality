@@ -1,8 +1,12 @@
 import React from 'react';
 import { Button } from './ui/button';
 import { MapPin, Calendar, Award } from 'lucide-react';
+import { useAdminImages, getAdminImageByIndex } from '../hooks/useAdminImages';
 
 const Hero = () => {
+  const { images: heroImages } = useAdminImages('hero');
+  const heroBg = getAdminImageByIndex(heroImages, 0, 'https://images.unsplash.com/photo-1595781723824-9213a40e3257?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwzfHx0cm9waWNhbCUyMGJlYWNoJTIwcGFyYWRpc2V8ZW58MHx8fHRlYWx8MTc3MTc2OTIxOXww&ixlib=rb-4.1.0&q=85');
+
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -15,7 +19,7 @@ const Hero = () => {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="https://images.unsplash.com/photo-1595781723824-9213a40e3257?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwzfHx0cm9waWNhbCUyMGJlYWNoJTIwcGFyYWRpc2V8ZW58MHx8fHRlYWx8MTc3MTc2OTIxOXww&ixlib=rb-4.1.0&q=85"
+          src={heroBg}
           alt="Tropical Paradise"
           className="w-full h-full object-cover"
         />
