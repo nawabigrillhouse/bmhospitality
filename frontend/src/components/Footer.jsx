@@ -48,7 +48,7 @@ const Footer = () => {
               <a href="#" className="footer-social-icon">
                 <Facebook size={20} />
               </a>
-              <a href="#" className="footer-social-icon">
+              <a href="https://www.instagram.com/bm_hospitality/" target="_blank" rel="noopener noreferrer" className="footer-social-icon">
                 <Instagram size={20} />
               </a>
               <a href="#" className="footer-social-icon">
@@ -95,17 +95,18 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-teal-400 flex-shrink-0 mt-1" />
                 <p className="text-sm text-gray-400">
-                  123 Travel Street, Suite 456<br />
-                  Paradise City, PC 12345
+                  104 Dattakrupa Apartment<br />
+                  Dattawadi, Mapusa<br />
+                  Goa, India
                 </p>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-teal-400 flex-shrink-0" />
-                <p className="text-sm text-gray-400">+1 (555) 123-4567</p>
+                <p className="text-sm text-gray-400">+91 9890765859<br />+91 8329416113 (WhatsApp)</p>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-teal-400 flex-shrink-0" />
-                <p className="text-sm text-gray-400">info@bmhospitality.com</p>
+                <p className="text-sm text-gray-400">bmhospitality.11@gmail.com</p>
               </div>
             </div>
           </div>
