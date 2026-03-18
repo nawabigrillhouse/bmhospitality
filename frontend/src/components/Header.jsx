@@ -58,7 +58,7 @@ const Header = () => {
             />
             <div className="hidden sm:block">
               <h1 className="text-xl font-bold text-teal-700">BM Hospitality</h1>
-              <p className="text-xs text-gray-600">Your Journey, Our Passion</p>
+              <p className="text-xs text-gray-600">Handcrafted Travel, Just for You.</p>
             </div>
           </div>
 
