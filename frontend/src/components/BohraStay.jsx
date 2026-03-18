@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
-import { Home, Users, Waves, IndianRupee, Check, Sparkles, Send } from 'lucide-react';
+import { Home, Users, Waves, Check, Sparkles, Send } from 'lucide-react';
 import { bohraStayOptions, bohraAmenities, bohraSpecialFeatures, bohraPackageIncludes, sendWhatsAppMessage } from '../mock';
 import { toast } from 'sonner';
 
@@ -63,7 +63,6 @@ const BohraStay = () => {
       message += `*Stay Type:* ${selectedStayType}\n`;
       message += `*Configuration:* ${selectedOption.bhk}\n`;
       message += `*Capacity:* ${selectedOption.capacity}\n`;
-      message += `*Starting Price:* ${selectedOption.price}/night onwards\n`;
       if (formData.selectedSubOption) {
         message += `*Selected Option:* ${formData.selectedSubOption}\n`;
       }
@@ -74,7 +73,7 @@ const BohraStay = () => {
       if (formData.message) {
         message += `\n*Special Requirements:*\n${formData.message}\n`;
       }
-      message += `\n_Note: Rate valid for minimum 3 night stay_\n`;
+      message += `\n_Fill the form & submit to know your package rate_\n`;
       message += `_Dawoodi Bohra Community - BM Hospitality_`;
       sendWhatsAppMessage(message);
     } catch {
@@ -112,7 +111,7 @@ const BohraStay = () => {
         
         <div className="inline-block bg-teal-50 px-6 py-2 rounded-full ml-3">
           <p className="text-sm font-semibold text-teal-800">
-            ⏱️ Rate valid for minimum 3 night stay
+            Fill the form & submit to know your package rate
           </p>
         </div>
       </div>
@@ -156,20 +155,13 @@ const BohraStay = () => {
               
               {option.note && (
                 <p className="text-xs text-teal-700 font-semibold bg-teal-50 p-2 rounded">
-                  💡 {option.note}
+                  {option.note}
                 </p>
               )}
               
               <div className="border-t pt-3">
-                <p className="text-sm text-gray-500 mb-1">Starting from</p>
-                <p className="text-3xl font-bold text-teal-700 flex items-center">
-                  <IndianRupee className="w-6 h-6" />{option.price}
-                </p>
-                <p className="text-xs text-gray-500 mt-1">Per night onwards</p>
-                
-                {/* Rate Includes */}
-                <div className="mt-3 bg-gradient-to-r from-teal-50 to-blue-50 p-3 rounded-lg border border-teal-100">
-                  <p className="text-xs font-bold text-teal-800 mb-2">Rate Includes:</p>
+                <div className="bg-gradient-to-r from-teal-50 to-blue-50 p-3 rounded-lg border border-teal-100">
+                  <p className="text-xs font-bold text-teal-800 mb-2">Package Includes:</p>
                   <div className="grid grid-cols-2 gap-1">
                     <div className="flex items-center text-xs text-gray-700">
                       <Check className="w-3 h-3 mr-1 text-teal-600" />
@@ -190,9 +182,8 @@ const BohraStay = () => {
                   </div>
                 </div>
                 
-                {/* Special Bohra Features */}
                 <div className="mt-3 bg-gradient-to-r from-orange-50 to-amber-50 p-3 rounded-lg border border-orange-100">
-                  <p className="text-xs font-bold text-orange-800 mb-2">🕌 Bohra Special Features:</p>
+                  <p className="text-xs font-bold text-orange-800 mb-2">Bohra Special Features:</p>
                   <div className="space-y-1">
                     <div className="flex items-start text-xs text-gray-700">
                       <span className="mr-1">🍽️</span>

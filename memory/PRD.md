@@ -1,7 +1,7 @@
 # BM Hospitality - Product Requirements Document
 
 ## Original Problem Statement
-Create a customized travel services and package website named "BM Hospitality" with multiple sections for different travel services, inquiry forms, community features, and an admin panel for content management.
+Create a customized travel services and package website named "BM Hospitality" with multiple sections for different travel services, inquiry forms, community features, and an admin panel.
 
 ## Tech Stack
 - Frontend: React, TailwindCSS, Shadcn/UI, react-router-dom
@@ -11,32 +11,36 @@ Create a customized travel services and package website named "BM Hospitality" w
 ## What's Been Implemented
 
 ### Main Website
-- Hero section, Services, Packages (Domestic/International/Goa), Goa Hotels with star-rating filter
-- Hotels & Resorts worldwide, Dawoodi Bohra Stays, Flight Inquiry, Offers & Deals (olive green)
-- Travel Blogs (placeholder), Gallery, Testimonials, Contact (with map)
-- Newsletter popup, WhatsApp floating button, Header with Instagram link & search box
+- Hero, Services, Packages (Domestic/International/Goa), Gallery, Testimonials, Footer
+- **Goa Hotels & Resorts**: North Goa / South Goa region selector, then stay preferences:
+  - Budget Hotels - 3 Star, Premium Hotels & Resorts - 4 Star, Luxury Hotels & Resorts - 5 Star
+  - Stay for Bachelors, Stay for Family, Stay for Couples, Stay for Groups
+  - Check-in form with email & WhatsApp submission
+- **Hotels & Resorts Worldwide**: Search form with email/WhatsApp quote delivery
+- **Dawoodi Bohra Stays**: Villa/apartment options, NO pricing displayed, "Fill the form & submit to know your package rate"
+- **Flight Inquiry**: Clean inquiry form (no MakeMyTrip, no markup)
+- **Offers & Deals**: Olive green theme
+- **Contact**: Updated address, phone, WhatsApp, email, map
+- **Newsletter popup**: On initial load
+- **WhatsApp floating button**: Bottom-right on all pages
+- **Header**: Instagram link (top-left), navigation, search box
 - ALL forms submit via BOTH backend API (MongoDB) AND WhatsApp
 
-### Admin Panel (at /admin)
-- Password-protected login (Nawabi@2025)
-- Dashboard: Stats overview (inquiries, subscriptions, images)
-- **Image Manager**: Upload/delete photos for ALL sections (Hero, Domestic Packages, International, Goa Hotels, Bohra Stays, Gallery, Testimonials, Offers, General)
-- **Inquiries Dashboard**: View all flight, hotel, package, contact inquiries
-- **Subscriptions**: View all newsletter subscribers
-- Object storage via Emergent integrations for persistent image uploads
+### Admin Panel (at /admin, password: Nawabi@2025)
+- Dashboard with stats
+- **Universal Image Manager**: Upload/delete for all sections (Hero, Packages, Goa Hotels, Bohra Stays, Gallery, etc.)
+- Inquiries Dashboard & Subscriptions view
+- Object storage via Emergent integrations
 
 ### Backend API Endpoints
-- POST /api/subscribe, /api/flight-inquiry, /api/hotel-inquiry, /api/contact, /api/inquiry
-- POST /api/admin/login, /api/admin/upload
-- GET /api/admin/stats, /api/admin/inquiries, /api/admin/subscriptions, /api/admin/images
-- DELETE /api/admin/images/{id}
-- GET /api/files/{path} (serve uploaded images)
-- GET /api/content/{section}
+- Public: /api/subscribe, /api/flight-inquiry, /api/hotel-inquiry, /api/contact, /api/inquiry
+- Admin: /api/admin/login, /api/admin/upload, /api/admin/stats, /api/admin/inquiries, /api/admin/subscriptions, /api/admin/images
+- Files: /api/files/{path}, /api/content/{section}
 
 ## Prioritized Backlog
 
 ### P1
-- Connect uploaded admin images to display on the main website (currently images are uploaded but not yet replacing stock photos dynamically)
+- Connect admin-uploaded images to display dynamically on main website
 - Logo: User to share transparent PNG file
 
 ### P2
