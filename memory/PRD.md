@@ -1,53 +1,78 @@
 # BM Hospitality - Product Requirements Document
 
 ## Original Problem Statement
-Create a customized travel services and package website named "BM Hospitality" with multiple sections for different travel services, inquiry forms, community features, and an admin panel.
+Create a customized travel services and package website named "BM Hospitality" with comprehensive features including newsletter subscriptions, travel packages, hotel/resort bookings, Dawoodi Bohra community stays, flight inquiries, offers & deals, travel blogs, testimonials, contact information, and a full admin panel for content management.
+
+## Core Requirements
+- Full navigation header with tabs: Packages, Goa Holidays, Hotels & Resorts, Bohra Mumeneen Stays, Flight Inquiry, Offers & Deals, Travel Blogs, Testimonials, Contact Us
+- Newsletter subscription popup
+- Admin Panel for managing website images and viewing inquiries
+- All inquiry forms submit to backend DB + open pre-filled WhatsApp messages
+- Dynamic image management via admin panel (CMS)
 
 ## Tech Stack
 - Frontend: React, TailwindCSS, Shadcn/UI, react-router-dom
-- Backend: FastAPI, MongoDB, Emergent Object Storage
-- Database: MongoDB (localhost:27017, DB: test_database)
+- Backend: FastAPI, Pydantic
+- Database: MongoDB
+- Storage: Emergent Object Storage for images
+- State: Custom hooks (useAdminImages)
 
-## What's Been Implemented
+## Admin Credentials
+- URL: /admin
+- Password: Nawabi@2025
 
-### Main Website
-- Hero, Services, Packages (Domestic/International/Goa), Gallery, Testimonials, Footer
-- **Goa Hotels & Resorts**: North Goa / South Goa region selector, then stay preferences:
-  - Budget Hotels - 3 Star, Premium Hotels & Resorts - 4 Star, Luxury Hotels & Resorts - 5 Star
-  - Stay for Bachelors, Stay for Family, Stay for Couples, Stay for Groups
-  - Check-in form with email & WhatsApp submission
-- **Hotels & Resorts Worldwide**: Search form with email/WhatsApp quote delivery
-- **Dawoodi Bohra Stays**: Villa/apartment options, NO pricing displayed, "Fill the form & submit to know your package rate"
-- **Flight Inquiry**: Clean inquiry form (no MakeMyTrip, no markup)
-- **Offers & Deals**: Olive green theme
-- **Contact**: Updated address, phone, WhatsApp, email, map
-- **Newsletter popup**: On initial load
-- **WhatsApp floating button**: Bottom-right on all pages
-- **Header**: Instagram link (top-left), navigation, search box
-- ALL forms submit via BOTH backend API (MongoDB) AND WhatsApp
+## What's Implemented (as of March 18, 2026)
 
-### Admin Panel (at /admin, password: Nawabi@2025)
-- Dashboard with stats
-- **Universal Image Manager**: Upload/delete for all sections (Hero, Packages, Goa Hotels, Bohra Stays, Gallery, etc.)
-- Inquiries Dashboard & Subscriptions view
-- Object storage via Emergent integrations
+### Frontend Components
+- Hero section with dynamic background image
+- Packages section (Domestic, International, Goa tabs) with dynamic images
+- Goa Hotels & Resorts inquiry form (North/South Goa, stay preferences)
+- Hotels & Resorts worldwide search form
+- Dawoodi Bohra Stay section with villa/apartment options and inquiry dialogs
+- Offers & Deals section with dynamic images
+- Gallery with lightbox and dynamic images
+- Flight Inquiry section
+- Testimonials section
+- Contact Us section with form
+- Services section
+- Newsletter popup, Instagram float, WhatsApp float
+- Full admin panel (login, dashboard, inquiries, image manager)
 
-### Backend API Endpoints
-- Public: /api/subscribe, /api/flight-inquiry, /api/hotel-inquiry, /api/contact, /api/inquiry
-- Admin: /api/admin/login, /api/admin/upload, /api/admin/stats, /api/admin/inquiries, /api/admin/subscriptions, /api/admin/images
-- Files: /api/files/{path}, /api/content/{section}
+### Backend APIs
+- POST /api/admin/login - Admin authentication
+- GET /api/admin/inquiries - View all inquiries
+- GET /api/admin/subscriptions - View all subscriptions
+- POST /api/admin/upload - Upload images with section tagging
+- GET /api/admin/images - List admin images
+- DELETE /api/admin/images/{id} - Soft delete image
+- GET /api/admin/stats - Dashboard statistics
+- GET /api/images/{section} - Public: get images by section
+- GET /api/files/{path} - Public: serve uploaded files
+- POST /api/inquiry - Package inquiry
+- POST /api/hotel-inquiry - Hotel inquiry
+- POST /api/flight-inquiry - Flight inquiry
+- POST /api/contact - Contact form
+- POST /api/subscribe - Newsletter subscription
+
+### Dynamic Image CMS (COMPLETED)
+- Admin can upload images tagged to sections: hero, domestic-packages, international-packages, goa-hotels, bohra-stays, gallery, testimonials, offers, general
+- Frontend components fetch images via useAdminImages hook
+- Fallback to stock photos when no admin images exist
+- Images update in real-time (no redeployment needed)
+- Tested: 100% backend (21/21 tests), 100% frontend verification
 
 ## Prioritized Backlog
 
-### P1
-- Connect admin-uploaded images to display dynamically on main website
-- Logo: User to share transparent PNG file
+### P1 - MakeMyTrip Flight Inquiry Integration
+- Embed/link mypartner.makemytrip.com in Flight Inquiry section
+- Check X-Frame-Options feasibility; fallback to redirect
 
-### P2
-- Develop Travel Blogs section with backend
-- Implement search functionality
-- Manage Packages/Offers/Testimonials from admin
+### P2 - Dynamic Text Content Management
+- Move hardcoded data from mock.js to database
+- Build CRUD in admin panel for packages, offers, testimonials
 
-### P3
-- Refactor BohraStay.jsx
-- SEO & performance optimization
+### P2 - Travel Blogs Section
+- Build blog management with admin panel support
+
+### P3 - Header Search Functionality
+- Implement search/filter across dynamic content
