@@ -53,7 +53,7 @@ const Header = () => {
             <img 
               src="https://customer-assets.emergentagent.com/job_fd3d940b-7582-4e9f-b21a-1ecd66b946d2/artifacts/vk8iwsdm_bm_hospitality_logo.png" 
               alt="BM Hospitality" 
-              className="h-20 w-20 object-cover rounded-full border-2 border-gray-200"
+              className="h-20 w-20 object-cover rounded-full border border-gray-100"
               style={{ 
                 filter: 'drop-shadow(4px 6px 6px rgba(80, 80, 80, 0.6)) drop-shadow(2px 3px 2px rgba(60, 60, 60, 0.4))'
               }}
