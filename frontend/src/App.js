@@ -18,6 +18,7 @@ import Testimonials from "./components/Testimonials";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import WhatsAppFloat from "./components/WhatsAppFloat";
+import InstagramFloat from "./components/InstagramFloat";
 import AdminPage from "./pages/admin/AdminPage";
 
 function MainSite() {
@@ -42,6 +43,7 @@ function MainSite() {
       </main>
       <Footer />
       <WhatsAppFloat />
+      <InstagramFloat />
       <Toaster position="top-right" />
     </>
   );
