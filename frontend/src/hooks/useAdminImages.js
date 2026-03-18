@@ -39,13 +39,16 @@ export function useAdminImages(section) {
 
 export function getAdminImage(adminImages, itemId, fallbackUrl) {
   if (!adminImages || adminImages.length === 0) return fallbackUrl;
+  // First try exact item_id match
   const match = adminImages.find(img => img.item_id === itemId);
   if (match) return match.url;
-  return fallbackUrl;
+  // If no item_id match, use the first available admin image for this section
+  return adminImages[0].url;
 }
 
 export function getAdminImageByIndex(adminImages, index, fallbackUrl) {
   if (!adminImages || adminImages.length === 0) return fallbackUrl;
   if (index < adminImages.length) return adminImages[index].url;
-  return fallbackUrl;
+  // Wrap around if more cards than images
+  return adminImages[index % adminImages.length].url;
 }
