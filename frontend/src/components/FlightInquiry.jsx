@@ -4,7 +4,6 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Plane, Calendar, Users, MapPin, Send } from 'lucide-react';
-import { sendWhatsAppMessage } from '../mock';
 import { toast } from 'sonner';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
@@ -25,18 +24,8 @@ const FlightInquiry = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Send WhatsApp FIRST (before async fetch for mobile compatibility)
-      let msg = `*Flight Inquiry - BM Hospitality*\n\n`;
-      msg += `*Flight Details:*\n`;
-      msg += `From: ${formData.from}\nTo: ${formData.to}\n`;
-      msg += `Departure: ${formData.departureDate}\n`;
-      if (formData.tripType === 'Round Trip') msg += `Return: ${formData.returnDate}\n`;
-      msg += `Passengers: ${formData.passengers}\nClass: ${formData.class}\nTrip: ${formData.tripType}\n\n`;
-      msg += `*Contact:*\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}`;
-      sendWhatsAppMessage(msg);
-
-      // Save to DB in background
-      fetch(`${API_URL}/api/flight-inquiry`, {
+      // Save to DB (email notification sent automatically by backend)
+      await fetch(`${API_URL}/api/flight-inquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

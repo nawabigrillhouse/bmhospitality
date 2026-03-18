@@ -5,7 +5,6 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Check, MapPin, Palmtree, Star, Calendar, Users, Mail, Phone, Send, Hotel, UserCheck, Heart, UsersRound } from 'lucide-react';
-import { sendWhatsAppMessage } from '../mock';
 import { toast } from 'sonner';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
@@ -42,19 +41,8 @@ const GoaPackage = () => {
       const nights = Math.ceil((new Date(formData.checkOutDate) - new Date(formData.checkInDate)) / (1000 * 60 * 60 * 24));
 
       // Send WhatsApp FIRST (before async fetch for mobile compatibility)
-      let msg = `*Goa Hotel/Resort Inquiry - BM Hospitality*\n\n`;
-      msg += `*Region:* ${formData.goaRegion}\n`;
-      msg += `*Stay Preference:* ${formData.stayPreference}\n\n`;
-      msg += `*Guest:*\nName: ${formData.name}\nEmail: ${formData.email}\nWhatsApp: ${formData.whatsapp}\n\n`;
-      msg += `*Booking:*\nCheck-in: ${formData.checkInDate}\nCheck-out: ${formData.checkOutDate}\nNights: ${nights}\n`;
-      msg += `Adults: ${formData.numberOfAdults}\nChildren: ${formData.numberOfChildren}\n`;
-      if (formData.roomType) msg += `Room Type: ${formData.roomType}\n`;
-      msg += `Meal Plan: ${formData.mealPlan}\n`;
-      if (formData.specialRequests) msg += `\nSpecial Requests:\n${formData.specialRequests}`;
-      sendWhatsAppMessage(msg);
-
-      // Save to DB in background
-      fetch(`${API_URL}/api/hotel-inquiry`, {
+      // Save to DB (email notification sent automatically by backend)
+      await fetch(`${API_URL}/api/hotel-inquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

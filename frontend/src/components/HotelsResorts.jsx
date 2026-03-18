@@ -4,7 +4,6 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Hotel, MapPin, Calendar, Users, Utensils, Mail, Phone, Send } from 'lucide-react';
-import { sendWhatsAppMessage } from '../mock';
 import { toast } from 'sonner';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
@@ -24,19 +23,8 @@ const HotelsResorts = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const nights = Math.ceil((new Date(formData.checkOutDate) - new Date(formData.checkInDate)) / (1000 * 60 * 60 * 24));
-      // Send WhatsApp FIRST (before async fetch for mobile compatibility)
-      let msg = `*Hotel/Resort Inquiry - BM Hospitality*\n\n`;
-      msg += `*Booking Details:*\n`;
-      msg += `Destination: ${formData.destination}\nCheck-in: ${formData.checkInDate}\nCheck-out: ${formData.checkOutDate}\n`;
-      msg += `Nights: ${nights}\nAdults: ${formData.adults}\nChildren: ${formData.children}\n`;
-      if (formData.children !== '0' && formData.childAges) msg += `Children Ages: ${formData.childAges}\n`;
-      msg += `Meal Plan: ${formData.mealPlan}\n\n`;
-      msg += `*Contact:*\nEmail: ${formData.email}\nWhatsApp: ${formData.whatsapp}`;
-      sendWhatsAppMessage(msg);
-
-      // Save to DB in background
-      fetch(`${API_URL}/api/hotel-inquiry`, {
+      // Save to DB (email notification sent automatically by backend)
+      await fetch(`${API_URL}/api/hotel-inquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

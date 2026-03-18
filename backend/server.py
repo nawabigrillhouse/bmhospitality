@@ -4,6 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
+import asyncio
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
 from typing import List, Optional
@@ -11,6 +12,7 @@ import uuid
 import hashlib
 from datetime import datetime, timezone
 from storage import init_storage, upload_image, get_object
+import resend
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -23,6 +25,28 @@ app = FastAPI()
 api_router = APIRouter(prefix="/api")
 
 ADMIN_PASSWORD = "Nawabi@2025"
+
+# Resend email setup
+resend.api_key = os.environ.get('RESEND_API_KEY', '')
+NOTIFICATION_EMAIL = os.environ.get('NOTIFICATION_EMAIL', '')
+SENDER_EMAIL = os.environ.get('SENDER_EMAIL', 'onboarding@resend.dev')
+
+async def send_notification_email(subject: str, html_content: str):
+    """Send email notification to business owner - non-blocking"""
+    if not resend.api_key or not NOTIFICATION_EMAIL:
+        logging.warning("Email not configured, skipping notification")
+        return
+    try:
+        params = {
+            "from": SENDER_EMAIL,
+            "to": [NOTIFICATION_EMAIL],
+            "subject": subject,
+            "html": html_content
+        }
+        await asyncio.to_thread(resend.Emails.send, params)
+        logging.info(f"Notification email sent: {subject}")
+    except Exception as e:
+        logging.error(f"Failed to send notification email: {e}")
 
 # --- Models ---
 class StatusCheck(BaseModel):
@@ -136,6 +160,14 @@ async def subscribe(data: SubscribeRequest):
     doc['id'] = str(uuid.uuid4())
     doc['created_at'] = datetime.now(timezone.utc).isoformat()
     await db.subscriptions.insert_one(doc)
+    asyncio.create_task(send_notification_email(
+        "New Newsletter Subscription - BM Hospitality",
+        f"<h2>New Subscriber</h2><table style='border-collapse:collapse;width:100%'>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Name</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('name','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Email</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('email','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Phone</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('phone','')}</td></tr>"
+        f"</table>"
+    ))
     return {"status": "success", "message": "Subscription received successfully"}
 
 @api_router.post("/flight-inquiry")
@@ -145,6 +177,21 @@ async def flight_inquiry(data: FlightInquiryRequest):
     doc['created_at'] = datetime.now(timezone.utc).isoformat()
     doc['type'] = 'flight'
     await db.inquiries.insert_one(doc)
+    asyncio.create_task(send_notification_email(
+        f"New Flight Inquiry from {doc.get('name','')} - BM Hospitality",
+        f"<h2>Flight Inquiry</h2><table style='border-collapse:collapse;width:100%'>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Name</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('name','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Email</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('email','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Phone</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('phone','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>From</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('from_city','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>To</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('to_city','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Departure</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('departure_date','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Return</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('return_date','N/A')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Passengers</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('passengers','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Class</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('travel_class','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Trip Type</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('trip_type','')}</td></tr>"
+        f"</table>"
+    ))
     return {"status": "success", "message": "Flight inquiry received. We will get back to you with the best options."}
 
 @api_router.post("/hotel-inquiry")
@@ -154,6 +201,19 @@ async def hotel_inquiry(data: HotelInquiryRequest):
     doc['created_at'] = datetime.now(timezone.utc).isoformat()
     doc['type'] = 'hotel'
     await db.inquiries.insert_one(doc)
+    asyncio.create_task(send_notification_email(
+        f"New Hotel Inquiry - {doc.get('destination','')} - BM Hospitality",
+        f"<h2>Hotel/Resort Inquiry</h2><table style='border-collapse:collapse;width:100%'>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Destination</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('destination','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Check-in</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('check_in_date','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Check-out</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('check_out_date','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Adults</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('adults','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Children</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('children','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Meal Plan</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('meal_plan','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Email</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('email','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>WhatsApp</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('whatsapp','')}</td></tr>"
+        f"</table>"
+    ))
     return {"status": "success", "message": "Hotel inquiry received. We will send you the best options."}
 
 @api_router.post("/contact")
@@ -163,6 +223,16 @@ async def contact(data: ContactRequest):
     doc['created_at'] = datetime.now(timezone.utc).isoformat()
     doc['type'] = 'contact'
     await db.inquiries.insert_one(doc)
+    asyncio.create_task(send_notification_email(
+        f"New Contact Message from {doc.get('name','')} - BM Hospitality",
+        f"<h2>Contact Message</h2><table style='border-collapse:collapse;width:100%'>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Name</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('name','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Email</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('email','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Phone</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('phone','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Subject</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('subject','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Message</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('message','')}</td></tr>"
+        f"</table>"
+    ))
     return {"status": "success", "message": "Message received. We will respond within 24 hours."}
 
 @api_router.post("/inquiry")
@@ -172,6 +242,21 @@ async def quick_inquiry(data: QuickInquiryRequest):
     doc['created_at'] = datetime.now(timezone.utc).isoformat()
     doc['type'] = 'package'
     await db.inquiries.insert_one(doc)
+    asyncio.create_task(send_notification_email(
+        f"New Package Inquiry from {doc.get('name','')} - BM Hospitality",
+        f"<h2>Package Inquiry</h2><table style='border-collapse:collapse;width:100%'>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Package</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('package_type','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Name</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('name','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Email</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('email','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Phone</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('phone','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Destination</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('destination','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Check-in</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('check_in_date','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Check-out</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('check_out_date','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Adults</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('number_of_adults','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Children</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('number_of_children','')}</td></tr>"
+        f"<tr><td style='padding:8px;border:1px solid #ddd;font-weight:bold'>Requirements</td><td style='padding:8px;border:1px solid #ddd'>{doc.get('requirements','')}</td></tr>"
+        f"</table>"
+    ))
     return {"status": "success", "message": "Inquiry received. We will contact you shortly with the best options."}
 
 

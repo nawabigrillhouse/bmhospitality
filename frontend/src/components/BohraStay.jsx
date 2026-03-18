@@ -6,7 +6,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Home, Users, Waves, Check, Sparkles, Send } from 'lucide-react';
-import { bohraStayOptions as defaultBohraStayOptions, bohraAmenities, bohraSpecialFeatures, sendWhatsAppMessage } from '../mock';
+import { bohraStayOptions as defaultBohraStayOptions, bohraAmenities, bohraSpecialFeatures } from '../mock';
 import { useAdminImages, getAdminImage } from '../hooks/useAdminImages';
 import { useContent } from '../hooks/useContent';
 import { toast } from 'sonner';
@@ -93,27 +93,8 @@ const BohraStay = () => {
     e.preventDefault();
     
     try {
-      // Build WhatsApp message FIRST and open it (must be before async fetch for mobile)
-      let message = `*Dawoodi Bohra Stay Inquiry - BM Hospitality*\n\n`;
-      message += `*Stay Type:* ${selectedStayType}\n`;
-      message += `*Configuration:* ${selectedOption.bhk}\n`;
-      message += `*Capacity:* ${selectedOption.capacity}\n`;
-      if (formData.selectedSubOption) {
-        message += `*Selected Option:* ${formData.selectedSubOption}\n`;
-      }
-      message += `\n*Guest Details:*\n`;
-      message += `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\n`;
-      message += `*Booking:*\nCheck-in: ${formData.checkInDate}\nCheck-out: ${formData.checkOutDate}\n`;
-      message += `Adults: ${formData.numberOfAdults}\nChildren: ${formData.numberOfChildren}\n`;
-      if (formData.message) {
-        message += `\n*Special Requirements:*\n${formData.message}\n`;
-      }
-      message += `\n_Fill the form & submit to know your package rate_\n`;
-      message += `_Dawoodi Bohra Community - BM Hospitality_`;
-      sendWhatsAppMessage(message);
-
-      // Save to DB in background
-      fetch(`${API_URL}/api/inquiry`, {
+      // Save to DB (email notification sent automatically by backend)
+      await fetch(`${API_URL}/api/inquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -127,10 +108,10 @@ const BohraStay = () => {
         })
       });
     } catch {
-      // WhatsApp still opens even if API fails
+      // still show success
     }
     
-    toast.success('Inquiry sent! We will send you exact cost & accommodation details via email and WhatsApp.');
+    toast.success('Inquiry submitted! We will send you the details on your email and WhatsApp shortly.');
     
     // Reset form and close dialog
     setFormData({
@@ -369,7 +350,7 @@ const BohraStay = () => {
                   </div>
                   
                   <div>
-                    <Label htmlFor="bohra-phone" className="text-base font-semibold">Phone Number *</Label>
+                    <Label htmlFor="bohra-phone" className="text-base font-semibold">WhatsApp Number *</Label>
                     <Input 
                       id="bohra-phone" 
                       name="phone"

@@ -7,7 +7,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Clock, MapPin, Check, IndianRupee, Send } from 'lucide-react';
-import { domesticPackages, internationalPackages, goaPackages, sendWhatsAppMessage } from '../mock';
+import { domesticPackages, internationalPackages, goaPackages } from '../mock';
 import { useAdminImages, getAdminImage } from '../hooks/useAdminImages';
 import { useContent } from '../hooks/useContent';
 import { toast } from 'sonner';
@@ -45,19 +45,8 @@ const Packages = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Build and send WhatsApp message FIRST (before async fetch for mobile compatibility)
-      let msg = `*${packageType} Package Inquiry - BM Hospitality*\n\n`;
-      msg += `Package: ${selectedPackage?.name || selectedPackage?.location}\n`;
-      msg += `Destination: ${selectedPackage?.destination || selectedPackage?.location}\n\n`;
-      msg += `*Guest:*\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\n`;
-      msg += `*Travel:*\nDate: ${formData.travelDate}\nAdults: ${formData.numberOfAdults}\nChildren: ${formData.numberOfChildren}\n`;
-      if (formData.duration) msg += `Duration: ${formData.duration}\n`;
-      if (formData.destination) msg += `Preferred: ${formData.destination}\n`;
-      if (formData.message) msg += `\nRequirements:\n${formData.message}`;
-      sendWhatsAppMessage(msg);
-
-      // Save to DB in background
-      fetch(`${API_URL}/api/inquiry`, {
+      // Save to DB (email notification sent automatically by backend)
+      await fetch(`${API_URL}/api/inquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -71,7 +60,7 @@ const Packages = () => {
         })
       });
 
-      toast.success('Request sent! We will send you a quotation via email and WhatsApp shortly.');
+      toast.success('Request submitted! We will send you a quotation on your email and WhatsApp shortly.');
       setFormData({ name: '', email: '', phone: '', travelDate: '',
         numberOfAdults: '2', numberOfChildren: '0', duration: '', destination: '', message: '' });
     } catch {

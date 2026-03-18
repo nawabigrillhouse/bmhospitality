@@ -5,7 +5,7 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Button } from './ui/button';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
-import { sendWhatsAppMessage } from '../mock';
+import { WHATSAPP_NUMBER } from '../mock';
 import { toast } from 'sonner';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
@@ -24,15 +24,8 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Send WhatsApp FIRST (before async fetch for mobile compatibility)
-      let msg = `*Contact Message - BM Hospitality*\n\n`;
-      msg += `Name: ${formData.name}\nEmail: ${formData.email}\n`;
-      if (formData.phone) msg += `Phone: ${formData.phone}\n`;
-      msg += `Subject: ${formData.subject}\n\nMessage:\n${formData.message}`;
-      sendWhatsAppMessage(msg);
-
-      // Save to DB in background
-      fetch(`${API_URL}/api/contact`, {
+      // Save to DB (email notification sent automatically by backend)
+      await fetch(`${API_URL}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
