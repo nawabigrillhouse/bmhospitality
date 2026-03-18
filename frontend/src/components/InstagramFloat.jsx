@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 
-const INSTAGRAM_URL = 'https://www.instagram.com/bm_hospitality/';
+const INSTAGRAM_URL = 'https://www.instagram.com/bm_hospitality?igsh=MTZ4Z280NnVvbmVlYw==';
 
 const InstagramFloat = () => {
   const [visible, setVisible] = useState(false);
@@ -18,21 +18,29 @@ const InstagramFloat = () => {
   }, []);
 
   const handleDismiss = (e) => {
+    e.preventDefault();
     e.stopPropagation();
     setVisible(false);
     setDismissed(true);
     sessionStorage.setItem('bm_insta_dismissed', 'true');
   };
 
+  const handleClick = () => {
+    window.open(INSTAGRAM_URL, '_blank', 'noopener,noreferrer');
+  };
+
   if (dismissed || !visible) return null;
 
   return (
-    <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer"
-      className="fixed bottom-28 left-5 z-50 animate-float-in"
-      data-testid="instagram-float-popup">
-      <div className="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-2xl shadow-2xl p-4 pr-10 flex items-center space-x-3 cursor-pointer hover:scale-105 transition-transform duration-300 max-w-[280px]">
+    <div className="fixed bottom-28 left-5 z-50 animate-float-in" data-testid="instagram-float-popup">
+      <div
+        onClick={handleClick}
+        className="relative bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-2xl shadow-2xl p-4 pr-10 flex items-center space-x-3 cursor-pointer hover:scale-105 transition-transform duration-300 max-w-[280px]"
+        role="button"
+        tabIndex={0}
+      >
         <button onClick={handleDismiss}
-          className="absolute top-2 right-2 text-white/70 hover:text-white transition-colors"
+          className="absolute top-2 right-2 text-white/70 hover:text-white transition-colors z-10"
           data-testid="instagram-float-close">
           <X className="w-4 h-4" />
         </button>
@@ -46,7 +54,7 @@ const InstagramFloat = () => {
           <p className="text-xs text-white/80">@BM_Hospitality</p>
         </div>
       </div>
-    </a>
+    </div>
   );
 };
 

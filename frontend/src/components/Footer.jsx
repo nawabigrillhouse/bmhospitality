@@ -48,7 +48,7 @@ const Footer = () => {
               <a href="#" className="footer-social-icon">
                 <Facebook size={20} />
               </a>
-              <a href="https://www.instagram.com/bm_hospitality/" target="_blank" rel="noopener noreferrer" className="footer-social-icon">
+              <a href="https://www.instagram.com/bm_hospitality?igsh=MTZ4Z280NnVvbmVlYw==" target="_blank" rel="noopener noreferrer" className="footer-social-icon">
                 <Instagram size={20} />
               </a>
               <a href="#" className="footer-social-icon">
