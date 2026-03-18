@@ -5,15 +5,23 @@ import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Textarea } from '../../components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../components/ui/dialog';
-import { Plus, Pencil, Trash2, Loader2, Package, Star, Tag, ChevronDown, ChevronUp, GripVertical } from 'lucide-react';
+import { Plus, Pencil, Trash2, Loader2, Package, Star, Tag, Home } from 'lucide-react';
 import { toast } from 'sonner';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
+
+const STAY_TYPE_OPTIONS = [
+  { value: 'privateVillaCommonPool', label: 'Private Villa with Common Pool' },
+  { value: 'privateVillaPrivatePool', label: 'Private Villa with Private Pool' },
+  { value: 'apartments', label: 'Apartments with Common Pool' },
+];
 
 const CONTENT_SECTIONS = [
   { id: 'domestic-packages', label: 'Domestic Packages', icon: Package },
   { id: 'international-packages', label: 'International Packages', icon: Package },
   { id: 'goa-packages', label: 'Goa Hotels/Resorts', icon: Package },
+  { id: 'bohra-stay-types', label: 'Bohra Stay Types', icon: Home },
+  { id: 'bohra-stay-options', label: 'Bohra Stay Options', icon: Home },
   { id: 'testimonials', label: 'Testimonials', icon: Star },
   { id: 'offers', label: 'Offers & Deals', icon: Tag },
 ];
@@ -57,6 +65,22 @@ const SECTION_FIELDS = {
     { key: 'discount', label: 'Discount (e.g., 10% OFF)', type: 'text', required: true },
     { key: 'validTill', label: 'Valid Till (e.g., Ongoing or April 30, 2025)', type: 'text', required: true },
     { key: 'category', label: 'Category (e.g., All Packages, Goa)', type: 'text' },
+    { key: 'image', label: 'Image URL (or use Image Manager)', type: 'text' },
+  ],
+  'bohra-stay-types': [
+    { key: 'key', label: 'Stay Type Key', type: 'select', required: true, options: STAY_TYPE_OPTIONS },
+    { key: 'name', label: 'Display Name', type: 'text', required: true },
+    { key: 'subtitle', label: 'Subtitle', type: 'text', required: true },
+    { key: 'tag', label: 'Tag Line', type: 'text', required: true },
+  ],
+  'bohra-stay-options': [
+    { key: 'stayType', label: 'Stay Type', type: 'select', required: true, options: STAY_TYPE_OPTIONS },
+    { key: 'bhk', label: 'BHK (e.g., 2 BHK)', type: 'text', required: true },
+    { key: 'capacity', label: 'Capacity (e.g., 4-6 Person)', type: 'text', required: true },
+    { key: 'option1', label: 'Option 1 (e.g., 2BHK Per unit for 4 person)', type: 'text', required: true },
+    { key: 'option2', label: 'Option 2 (e.g., 2BHK Per unit for 4-6 person)', type: 'text', required: true },
+    { key: 'price', label: 'Price (e.g., 18,500)', type: 'text', required: true },
+    { key: 'note', label: 'Note (optional)', type: 'text' },
     { key: 'image', label: 'Image URL (or use Image Manager)', type: 'text' },
   ],
 };
@@ -105,6 +129,15 @@ const ContentForm = ({ section, initialData, onSave, onCancel }) => {
           ) : f.type === 'list' ? (
             <Textarea value={formData[f.key]} onChange={e => setFormData({ ...formData, [f.key]: e.target.value })}
               className="mt-1" rows={4} placeholder="Enter one item per line" data-testid={`content-field-${f.key}`} />
+          ) : f.type === 'select' ? (
+            <select value={formData[f.key]} onChange={e => setFormData({ ...formData, [f.key]: e.target.value })}
+              className="w-full mt-1 px-3 py-2 border rounded-md text-sm" required={f.required}
+              data-testid={`content-field-${f.key}`}>
+              <option value="">Select...</option>
+              {(f.options || []).map(opt => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
+            </select>
           ) : (
             <Input type={f.type === 'number' ? 'number' : 'text'} value={formData[f.key]}
               onChange={e => setFormData({ ...formData, [f.key]: e.target.value })}
@@ -129,16 +162,30 @@ const ContentCard = ({ item, section, onEdit, onDelete }) => {
   const titleField = fields[0]?.key;
   const subtitleField = fields[1]?.key;
 
+  // For select fields, show the label instead of the value
+  const getDisplayValue = (key, value) => {
+    const field = fields.find(f => f.key === key);
+    if (field?.type === 'select' && field.options) {
+      const opt = field.options.find(o => o.value === value);
+      return opt ? opt.label : value;
+    }
+    return value;
+  };
+
   return (
     <Card className="hover:shadow-md transition-shadow" data-testid={`content-card-${item.id}`}>
       <CardContent className="p-4">
         <div className="flex justify-between items-start">
           <div className="flex-1 min-w-0">
-            <h4 className="font-bold text-gray-800 truncate">{data[titleField] || 'Untitled'}</h4>
-            {subtitleField && <p className="text-sm text-gray-500 truncate">{data[subtitleField]}</p>}
+            <h4 className="font-bold text-gray-800 truncate">{getDisplayValue(titleField, data[titleField]) || 'Untitled'}</h4>
+            {subtitleField && <p className="text-sm text-gray-500 truncate">{getDisplayValue(subtitleField, data[subtitleField])}</p>}
             {data.description && <p className="text-xs text-gray-400 mt-1 line-clamp-2">{data.description}</p>}
             {data.comment && <p className="text-xs text-gray-400 mt-1 line-clamp-2">"{data.comment}"</p>}
             {data.discount && <span className="inline-block mt-1 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold">{data.discount}</span>}
+            {data.bhk && <span className="inline-block mt-1 text-xs bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full font-semibold mr-1">{data.bhk}</span>}
+            {data.capacity && <span className="inline-block mt-1 text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-semibold">{data.capacity}</span>}
+            {data.price && <span className="inline-block mt-1 ml-1 text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-semibold">From ₹{data.price}/night</span>}
+            {data.tag && <p className="text-xs text-teal-600 mt-1 font-medium">{data.tag}</p>}
           </div>
           <div className="flex gap-1 ml-2 flex-shrink-0">
             <Button size="sm" variant="outline" onClick={() => onEdit(item)} data-testid={`edit-content-${item.id}`}

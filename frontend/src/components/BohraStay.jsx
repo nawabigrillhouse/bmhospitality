@@ -6,17 +6,64 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Home, Users, Waves, Check, Sparkles, Send } from 'lucide-react';
-import { bohraStayOptions, bohraAmenities, bohraSpecialFeatures, bohraPackageIncludes, sendWhatsAppMessage } from '../mock';
+import { bohraStayOptions as defaultBohraStayOptions, bohraAmenities, bohraSpecialFeatures, sendWhatsAppMessage } from '../mock';
 import { useAdminImages, getAdminImage } from '../hooks/useAdminImages';
+import { useContent } from '../hooks/useContent';
 import { toast } from 'sonner';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
+
+// Default stay types for fallback
+const defaultStayTypes = [
+  { key: 'privateVillaCommonPool', ...defaultBohraStayOptions.privateVillaCommonPool },
+  { key: 'privateVillaPrivatePool', ...defaultBohraStayOptions.privateVillaPrivatePool },
+  { key: 'apartments', ...defaultBohraStayOptions.apartments },
+];
+
+// Flatten default options for fallback
+const defaultStayOptionsList = [];
+Object.entries(defaultBohraStayOptions).forEach(([key, type]) => {
+  type.options.forEach(opt => {
+    defaultStayOptionsList.push({ ...opt, stayType: key });
+  });
+});
 
 const BohraStay = () => {
   const [selectedStayType, setSelectedStayType] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { images: bohraImages } = useAdminImages('bohra-stays');
+
+  const { items: dbStayTypes } = useContent('bohra-stay-types', []);
+  const { items: dbStayOptions } = useContent('bohra-stay-options', []);
+
+  // Build the stay data: use DB if available, else use defaults
+  const buildStayData = () => {
+    if (dbStayTypes.length > 0 && dbStayOptions.length > 0) {
+      // Build from DB content
+      const typesMap = {};
+      dbStayTypes.forEach(t => {
+        typesMap[t.key] = { name: t.name, subtitle: t.subtitle, tag: t.tag, options: [] };
+      });
+      dbStayOptions.forEach(opt => {
+        if (typesMap[opt.stayType]) {
+          typesMap[opt.stayType].options.push(opt);
+        }
+      });
+      return Object.entries(typesMap)
+        .filter(([, v]) => v.options.length > 0)
+        .map(([key, data]) => ({ stayKey: key, stayData: data }));
+    }
+    // Fallback to defaults
+    return [
+      { stayKey: 'privateVillaCommonPool', stayData: defaultBohraStayOptions.privateVillaCommonPool },
+      { stayKey: 'privateVillaPrivatePool', stayData: defaultBohraStayOptions.privateVillaPrivatePool },
+      { stayKey: 'apartments', stayData: defaultBohraStayOptions.apartments },
+    ];
+  };
+
+  const stayCategories = buildStayData();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -240,23 +287,10 @@ const BohraStay = () => {
           </div>
         </div>
 
-        {/* Private Villa with Common Pool */}
-        <StayTypeSection 
-          stayKey="privateVillaCommonPool" 
-          stayData={bohraStayOptions.privateVillaCommonPool} 
-        />
-
-        {/* Private Villa with Private Pool */}
-        <StayTypeSection 
-          stayKey="privateVillaPrivatePool" 
-          stayData={bohraStayOptions.privateVillaPrivatePool} 
-        />
-
-        {/* Apartments */}
-        <StayTypeSection 
-          stayKey="apartments" 
-          stayData={bohraStayOptions.apartments} 
-        />
+        {/* Dynamic Stay Types */}
+        {stayCategories.map(({ stayKey, stayData }) => (
+          <StayTypeSection key={stayKey} stayKey={stayKey} stayData={stayData} />
+        ))}
 
         {/* Special Dawoodi Bohra Features */}
         <div className="mt-16 mb-12 bg-gradient-to-br from-teal-50 to-blue-50 rounded-2xl shadow-xl p-10 border-2 border-teal-200">
