@@ -53,7 +53,8 @@ const Header = () => {
             <img 
               src="https://customer-assets.emergentagent.com/job_fd3d940b-7582-4e9f-b21a-1ecd66b946d2/artifacts/vk8iwsdm_bm_hospitality_logo.png" 
               alt="BM Hospitality" 
-              className="h-14 w-14 object-cover rounded-full"
+              className="h-20 w-20 object-cover rounded-full shadow-sm"
+              style={{ clipPath: 'circle(48% at center)' }}
             />
             <div className="hidden sm:block">
               <h1 className="text-xl font-bold text-teal-700">BM Hospitality</h1>
