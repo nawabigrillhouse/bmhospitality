@@ -61,6 +61,13 @@ Create a customized travel services and package website named "BM Hospitality" w
 - Images update in real-time (no redeployment needed)
 - Tested: 100% backend (21/21 tests), 100% frontend verification
 
+### Image Preview Feature (COMPLETED - March 18, 2026)
+- Admin Image Manager now shows a "Choose & Preview" button
+- After selecting files, a preview dialog shows exactly how the image will look on the website for that section
+- Section-specific mockups: Hero banner (full-width with overlay), Gallery (grid), Packages (card), Bohra Stays (card with badge), Offers (card with discount badge)
+- Admin can confirm upload or cancel after previewing
+- Multi-file preview supported
+
 ## Prioritized Backlog
 
 ### P1 - MakeMyTrip Flight Inquiry Integration
